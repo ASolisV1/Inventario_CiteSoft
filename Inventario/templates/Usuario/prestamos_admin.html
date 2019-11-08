@@ -1,0 +1,207 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% load %}
+{% load staticfiles %}
+
+    {% block head %}
+        <title>Mis Préstamos</title>
+    {% endblock %}
+
+    {% block content %}
+	<div class="container bootstrap snippet information-user">
+	<div class="panel-body inf-content">
+		<div class="form-row my-5 col-sm-12 col-lg-12 col-md-12 ">
+	        <div  class="col-sm-12 col-lg-4 col-md-12">
+	          <h2>Préstamos</h2>
+	        </div>
+        </div>
+
+        <div class="row">
+			<div class="col-md-6">
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<h3>Solicitudes</h3>
+					<!-- LISTAR PŔESTAMOS ACTUALES, QUE AUN NO HAN SIDO DEVUELTOS -->
+					{% for prestamo in recursos_solicitados %}
+						<div class="container">  
+							Para ser usado en el proyecto: {{ prestamo.idMiembro_Proyecto.idProyecto }}
+							<br>
+							Recurso: {{ prestamo.idRecurso_Proyecto.idRecurso }}
+							<br>
+								<!--cancelar prestamo -->
+						    <div class="row my-3">  
+						    	<div class="col-3 my-auto ">
+						    		<a href="" onclick="lendResource( '{{ prestamo.id }}' )" class="float-right btn bg-success text-white">Prestar</a>
+						    	</div>
+						    	<div class="col-3 my-auto">
+						    		<a href="" onclick="rejectRequest( '{{prestamo.id }}' )" class="float-right btn bg-danger text-white">Denegar</a>
+						    	</div>
+						    </div>
+						</div>
+					    
+					{% endfor %}
+
+				</table>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<h3>Préstamos actuales</h3>
+					<!-- LISTAR PŔESTAMOS ACTUALES, QUE AUN NO HAN SIDO DEVUELTOS -->
+					{% for prestamo in recursos_prestados %}
+						Para ser usado en el proyecto: {{ prestamo.idMiembro_Proyecto.idProyecto }}
+						<br>
+						Recurso: {{ prestamo.idRecurso_Proyecto.idRecurso }}
+						<br>
+						<div class="container opciones">
+							<!--cancelar prestamo -->
+					        <a class="btn btn-danger" href="#">Devolver</a>
+					    </div>
+					    <div class="container opciones">
+							<!--cancelar prestamo -->
+					        <a class="btn btn-danger" href="#">Devolver con Observacion</a>
+					    </div>
+					{% endfor %}
+
+				</table>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<h3>Préstamos Pasados</h3>
+					<!-- LISTAR PŔESTAMOS ACTUALES, QUE AUN NO HAN SIDO DEVUELTOS -->
+					{% for prestamo in recursos_devueltos %}
+						Para ser usado en el proyecto: {{ prestamo.idMiembro_Proyecto.idProyecto }}
+						<br>
+						Recurso: {{ prestamo.idRecurso_Proyecto.idRecurso }} <br>
+						Estado: {{ prestamo.estado }} <br>
+						Fecha: {{ prestamo.fecha }}
+						<br>
+					{% endfor %}
+
+				</table>
+				</div>
+			
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<h3>Préstamos Denegados</h3>
+					<!-- LISTAR PŔESTAMOS ACTUALES, QUE AUN NO HAN SIDO DEVUELTOS -->
+					{% for prestamo in recursos_denegados %}
+						Para ser usado en el proyecto: {{ prestamo.idMiembro_Proyecto.idProyecto }}
+						<br>
+						Recurso: {{ prestamo.idRecurso_Proyecto.idRecurso }} <br>
+						Estado: {{ prestamo.estado }} <br>
+						Fecha: {{ prestamo.fecha }}
+						<br>
+					{% endfor %}
+
+				</table>
+				</div>
+			
+			</div>
+		</div>
+
+
+
+	</div>
+	</div>                                        
+	{% endblock %}
+
+	{% block js %}
+        <script>
+            function lendResource(idPrestamo) {
+                var r = confirm("¿Está seguro que quiere prestar "+idPrestamo+" ?");
+                
+                var txt;
+                
+                if (r == false) {
+                    txt = "Usted canceló la operación.";
+                    alert(txt);
+                } else {
+                    $.ajax({
+                        method: 'GET',
+                        url: '/inventario/aceptarSolicitudPrestamo/',
+                        data: {
+                            'respuesta' : '1',
+                            'idPrestamo': idPrestamo,
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            var r2 = confirm(response.resultado);
+                            if (r2 == false) {
+                                alert('No se aceptó la solicitud de préstamo');
+                            } else {
+                                $.ajax({
+                                    method: 'GET',
+                                    url: '/inventario/aceptarSolicitudPrestamo/',
+                                    data: {
+                                        'respuesta' : '2',
+                                        'idPrestamo': idPrestamo,
+                                    },
+                                    dataType: "json",
+                                });
+                                alert('Se aceptó la solicitud de préstamo.');
+                                window.location.href='/inventario/gestionarPrestamos/';
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+
+        <script>
+        	function rejectRequest(idPrestamo) {
+                var r = confirm("¿Está seguro que quiere denegar la solicitud "+idPrestamo+" ?");
+                
+                var txt;
+                
+                if (r == false) {
+                    txt = "Usted canceló la operación.";
+                    alert(txt);
+                } else {
+                    $.ajax({
+                        method: 'GET',
+                        url: '/inventario/rechazarSolicitudPrestamo/',
+                        data: {
+                            'respuesta' : '1',
+                            'idPrestamo': idPrestamo,
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            var r2 = confirm(response.resultado);
+                            if (r2 == false) {
+                                alert('No se terminó la operación');
+                            } else {
+                                $.ajax({
+                                    method: 'GET',
+                                    url: '/inventario/rechazarSolicitudPrestamo/',
+                                    data: {
+                                        'respuesta' : '2',
+                                        'idPrestamo': idPrestamo,
+                                    },
+                                    dataType: "json",
+                                });
+                                alert('Se rechazó la solicitud de préstamo.');
+                                window.location.href='/inventario/gestionarPrestamos/';
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+        {% endblock %}

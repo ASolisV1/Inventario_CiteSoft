@@ -1,0 +1,132 @@
+{% extends "base/admin_group.html" %}
+{% load static %}
+{% load %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+    {% block head %}
+        <title>Lista de Recursos</title>
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+
+        <style type="text/css">
+            .form-rounded {
+                border-radius: 5px;
+            }
+            .btn-secondary{color:#292b2c;background-color:#fff;border-color:#ccc}
+            .btn-secondary:hover{color:#292b2c;background-color:#e6e6e6;border-color:#adadad}
+            .btn-secondary.focus,.btn-secondary:focus{-webkit-box-shadow:0 0 0 2px rgba(204,204,204,.5);box-shadow:0 0 0 2px rgba(204,204,204,.5)}
+            .btn-secondary.disabled,.btn-secondary:disabled{color: #fff;background-color:#fff;border-color:#ccc}
+            .btn-secondary.active,.btn-secondary:active,.show>.btn-secondary.dropdown-toggle{color:#e6e6e6;background-color:#e6e6e6;background-image:none;border-color:#adadad}
+
+            
+            .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,.show > .btn-secondary.dropdown-toggle {  color: #fff;  background-color: #fff;  border-color: #ccc;}
+            .btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus,.show > .btn-secondary.dropdown-toggle:focus {  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);}
+
+        </style>
+
+    {% endblock %}
+
+    {% block content %}
+    <div class="container">
+            <!-- Page Heading -->
+            <h1 class="my-4">Recursos 
+                <small>listar</small>
+            </h1>
+            <div class="col-lg-12">
+                <h5 class="card-header">Buscar</h5>
+                <div class="card-body">
+                    <div class="input-group">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                
+                                <input type="text" class="from-control form-rounded" placeholder="Buscar por..." name="nombre">
+                                <button class="btn btn-light" type="submit">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--Inicio del recurso encontrado -->
+            <div class="row">
+                {% if recursoEsp1 %}
+                {% for recurs in recursoEsp1 %}
+                <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item">
+                    <div class="card h-100">
+                        <a href="#"><img class="card-img-top" src="{{recurs.foto.url}}" alt=""></a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a href="{{recurs.get_absolute_url}}">{{recurs.nombre}} </a>
+                            </h4>
+                            <p class="card-text">{{recurs.caracteristicas}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <hr width="100%">
+                {% else %}
+                <hr width="100%">
+                {% endif %}
+                <!-- fin del recurso encontrado-->
+                <br><br><br>
+                <div class="row">
+                    {% if recursoss %}
+                        {% for recurso in recursoss %}
+                        <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="{{recurso.foto.url}}" alt=""></a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="{{recurso.get_absolute_url}}">{{recurso.nombre}} </a>
+                                    </h4>
+                                    <p class="card-text">{{recurso.fecha_ingreso}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item">
+                            <div class="card h-100">
+                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="#">No hay recurso a mostrar</a>
+                                    </h4>
+                                    <p class="card-text">No hay descripción</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- /.row -->
+                <!-- Pagination -->
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">«</span>
+                        <span class="sr-only">Anterior</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">»</span>
+                        <span class="sr-only">Siguiente</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>               
+    {% endblock %}
+
+    
+

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>CiTeSoft</title>
+
+    <!-- Bootstrap core CSS -->
+    {% load static %}
+ 
+   <link rel="stylesheet" href="httpsz://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+{% block content %}
+            <!-- Contenido que quieras -->
+            <div class="container">
+                  <h1 class="my-4">Registro 
+                  <small>miembro</small>
+                  </h1>
+                  <!--{{ formMiembro.as_p }} -->
+                  
+                  <form class="form-row mt-4" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="nombre">Nombre *</label>
+                            {{ formMiembro.nombre }}
+                        </div>
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="apellido">Apellidos *</label>
+                            {{ formMiembro.apellido }}
+                        </div>
+                         <div class="col-sm-12 col-lg-3 pb-3">
+                            <label for="nacimiento">Fecha de nacimiento *</label>
+                            <input type="date" class="form-control" name="fecha_nacimiento" placeholder="00-00-00" required>
+                        </div>
+                        <div class="col-sm-12 col-lg-3 pb-3">
+                            <label for="celular">Documento de Identidad *</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Nº</span></div>
+                                {{ formMiembro.dni }}
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-3 pb-3">
+                            <label for="celular">Celular *</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">Nº</span></div>
+                                {{ formMiembro.telefono }}
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-3 pb-3">
+                            <label for="nacimiento">Fecha de Ingreso *</label>
+                            {{ formMiembro.fecha_ingreso }}
+                        </div>
+                       
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="exampleSt"> Grado Academico *</label>
+                            {{ formMiembro.grado_academico }}
+                        </div>
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="correo">Correo *</label>
+                            {{ formMiembro.correo }}
+                        </div>
+                         <div class="col-sm-12 col-lg-6 pb-3">
+                            {{ formUser.as_p }}
+                        </div>
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="repetirContraseña">Confirmar Contraseña *</label>
+                            <input type="password" class="form-control" id="txtConfirmPassword" placeholder="****" required onChange="checkPasswordMatch();" />
+                            <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="celular">Foto *</label>
+                            <input type="file" accept="image/*" class="form-control" name="fotoMiembro" id="fotoMiembro" placeholder="142424">
+                            <output id="list" class="img-responsive-16by16-2">
+                                <img class="card-img-top " src="{{ miembro.foto.url }}" alt="">
+                            </output>
+                        </div>
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <P>Datos obligatorios (*)</p>
+                        </div>
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <input type="submit" class="btn-primary color-orange form-control" id="btnsub" value="Guardar" required>
+                        </div>
+                    </form>  
+                </div>
+  <script type="text/javascript">
+      
+              function archivo(evt) {
+                  var files = evt.target.files; 
+             
+                  for (var i = 0, f; f = files[i]; i++) {
+              
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+             
+                    var reader = new FileReader();
+             
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                         document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" width="600" height="400" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                        };
+                    })(f);
+             
+                    reader.readAsDataURL(f);
+                  }
+              }
+             
+              document.getElementById('fotoMiembro').addEventListener('change', archivo, false);
+      </script>
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtConfirmPassword").keyup(checkPasswordMatch);
+    });
+
+    function checkPasswordMatch() {
+        var password = $("#id_password").val();
+        var confirmPassword = $("#txtConfirmPassword").val();
+
+        if (password != confirmPassword){
+            $("#divCheckPasswordMatch").html("Las contraseñas no coinciden.");
+            $("#btnsub").prop('disabled', true);
+        }
+
+        else{
+            $("#divCheckPasswordMatch").html("");
+            $("#btnsub").prop('disabled', false);
+        }
+    }
+
+    $(document).ready(function () {
+       $("#txtConfirmPassword").keyup(checkPasswordMatch);
+    });
+
+    </script>
+
+    
+{% endblock %}
+</body>
+
+</html>

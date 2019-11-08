@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head></head>
+    <body>
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        {% load bootstrap3 %}       {# import bootstrap4/bootstrap3 #}
+        {% bootstrap_css %}         {# Embed Bootstrap CSS #}
+        {% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>CiTeSoft</title>
+        <!-- Bootstrap core CSS -->
+        {% load static %}
+        {% block headoblig %}
+        <title>Editar miembro</title>
+        <link rel="stylesheet" href="httpsz://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="{% static 'css/index.css' %}" rel="stylesheet">
+        {% endblock %}
+        {% block content %}
+        <!-- Contenido que quieras -->
+        <div class="container">
+            <h1 class="my-4">Editar
+                <small>Miembro</small>
+            </h1>
+            <!--{{ formMiembro.as_p }} -->
+            <form class="form-row mt-4" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="nombre">Nombres*</label>
+                    {{ formMiembro.nombre }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="apellido">Apellidos*</label>
+                    {{ formMiembro.apellido }}
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="nacimiento">Fecha de nacimiento*</label>
+                    <input type="date" class="form-control" name="fecha_nacimiento" placeholder="00-00-00" value="{{miembro.fecha_nacimiento|date:'Y-m-d' }}">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="celular">Documento de Identidad*</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Nº</span></div>
+                        {{ formMiembro.dni }}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="celular">Celular*</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Nº</span></div>
+                        {{ formMiembro.telefono }}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="nacimiento">Fecha de Ingreso*</label>
+                    <input type="date" class="form-control" name="fecha_ingreso" placeholder="00-00-00" value= "{{miembro.fecha_ingreso|date:'Y-m-d'}}">
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="exampleSt"> Grado Académico* </label>
+                    {{ formMiembro.grado_academico }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="correo">Correo electrónico*</label>
+                    {{ formMiembro.correo }}
+                </div>
+                <!-- div class="col-sm-12 col-lg-6 pb-3">
+                    {{ formUser.as_p }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="repetirContraseña">Repetir Contraseña*</label>
+                    <input type="password" class="form-control" id="txtConfirmPassword" placeholder="" required="" onchange="checkPasswordMatch();">
+                    <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
+                </div-->
+                 <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="celular">Foto *</label>
+                    <input type="file" class="form-control" name="foto" id="foto" accept="image/*">
+                    <output id="list">
+                    <img class="card-img-top" src="{{miembro.foto.url}}" alt="">
+                    </output>
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <input type="submit" class="btn-primary color-orange form-control" id="btnsub" required="" value="Guardar">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <a href="{% url 'Inventario_miembros_detail' miembro.id %}"  class="btn btn-danger  form-control" >Cancelar</a>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+            function archivo(evt) {
+                var files = evt.target.files; 
+            
+                for (var i = 0, f; f = files[i]; i++) {
+            
+                  if (!f.type.match('image.*')) {
+                      continue;
+                  }
+            
+                  var reader = new FileReader();
+            
+                  reader.onload = (function(theFile) {
+                      return function(e) {
+                       document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" width="500" height="400" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                      };
+                  })(f);
+            
+                  reader.readAsDataURL(f);
+                }
+            }
+            
+            document.getElementById('foto').addEventListener('change', archivo, false);
+        </script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#txtConfirmPassword").keyup(checkPasswordMatch);
+            });
+            
+            function checkPasswordMatch() {
+                var password = $("#id_password").val();
+                var confirmPassword = $("#txtConfirmPassword").val();
+            
+                if (password != confirmPassword){
+                    $("#divCheckPasswordMatch").html("Las contraseñas no coinciden.");
+                    $("#btnsub").prop('disabled', true);
+                }
+            
+                else{
+                    $("#divCheckPasswordMatch").html("");
+                    $("#btnsub").prop('disabled', false);
+                }
+            }
+            
+            $(document).ready(function () {
+               $("#txtConfirmPassword").keyup(checkPasswordMatch);
+            });
+            
+        </script>
+        
+        {% if messages %}
+            {% for message in messages %}
+            <script>
+                alert('{{ message }}')
+            </script>
+            {% endfor %}
+        {% endif %}
+        
+        {% endblock %}
+    </body>
+</html>

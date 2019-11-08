@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% extends "base/base_administrador.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+    {% block head %}
+        <title>Editar Proyectos | Citesoft</title>
+    {% endblock %}
+
+    {% block content %}
+        <div class="container">
+            <h1 class="my-4">Editar 
+                <small>proyecto</small>
+            </h1>
+            <form class="form-row mt-4" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control"  id="nombre" name="nombre"  value="{{ proyecto.nombre}}">
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="nombre">Código</label>
+                    <input type="text" class="form-control"  disabled name="codigo" id="codigo" value="{{ proyecto.codigo}}">
+                </div>                
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="celular">Imagen</label>
+                    <input type="file" class="form-control" id="files" name="foto" accept="image/*">
+                    <output id="list" class="img-responsive-16by9">
+                    <img class="card-img-top" src="{{proyecto.foto.url}}" alt="">
+                    </output>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="exampleMessage">Descripción</label>
+                    <textarea class="form-control" rows="14" name="descripcion">{{proyecto.descripcion}}</textarea>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="buscar-miembro">Fecha de inicio del proyecto</label>
+                    <input type="date"http://citesoft.unsa.edu.pe:8003/inventario/Inventario/miembros/detail/2/ class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{proyecto.fecha_inicio|date:'Y-m-d' }}">
+                </div>
+                
+                <div class="col-sm-12 col-lg-6 pb-3"></div>
+                
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <input type="submit" class="btn-primary form-control" id="submit" value="Guardar">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                   <a href="{% url 'Inventario_proyectos_detalle' proyecto.id  %}"><button id="editar" class="btn btn-danger form-control">Cancelar</button> </a>
+                </div>
+            </form>
+        </div>
+    {% endblock %}
+    {% block js %}
+        <script type="text/javascript">
+            function archivo(evt) {
+                var files = evt.target.files; 
+                for (var i = 0, f; f = files[i]; i++) {
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+                    var reader = new FileReader();
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                            document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                        };
+                    })(f);
+                        reader.readAsDataURL(f);
+                }
+            }
+            
+            document.getElementById('files').addEventListener('change', archivo, false);
+        </script>
+    {% endblock %}

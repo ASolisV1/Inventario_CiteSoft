@@ -1,0 +1,118 @@
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        {% load %}
+        {% load staticfiles %}
+        {% block title %}
+            {% if object %}
+                <title>{{ object }}</title>
+            {% else %}
+                <title>Not found</title>
+            {% endif %}
+        {% endblock%}
+        {% block style %}    
+        <style> 
+            .row{
+            border-bottom: 1px solid silver;
+            }
+            .datos div{
+            border-radius: 0;
+            border:none;
+            border-bottom: 1px solid silver;
+            color: orange;  
+            padding-bottom: 0px;
+            }
+            textarea{
+            color: orange;  
+            }
+            label {
+            color: #999999;
+            }
+        </style>
+        
+        {% endblock %}
+        {% block content %}
+        
+        
+            <div class="container">
+            {% if object %}
+                <h1>{{ object.idMiembro }}<h1>
+                <table class="table">
+                    <!-- tr><td>Proyecto</td><td>{{ object.idProyecto }}</td></tr-->
+                    <tr><td>Cargo</td><td>{{ object.idCargo }}</td></tr>
+                    <tr><td>Descripción</td><td>{{ object.descripcion }}</td></tr>
+                    <tr><td>Fecha de inicio en el proyecto {{ object.idProyecto }}</td><td>{{ object.fecha_miembro_proyecto }}</td></tr>
+                    <!-- tr><td>estado_miembro_proyecto</td><td>{{ object.estado_miembro_proyecto }}</td></tr-->
+                </table>
+                
+                <div>
+                                
+                {% if recursosAsignados %}
+                    <h1>Recursos asignados</h1>
+                    <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Código del recurso</th>
+                            <th>Recurso</th>
+                            <th>Proyecto actual</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                    {% for r in recursosAsignados %}
+                        <tr>
+                            <td>{{ r.idRecurso_Proyecto.idRecurso.cod_patrimonio }}</td>
+                            <td>{{ r.idRecurso_Proyecto.idRecurso }}</td>
+                            <td>{{ r.idRecurso_Proyecto.idProyecto }}</td>
+                            <td><p><a class="btn btn-danger" onclick="myFunction( '{{ r.idRecurso_Proyecto.id }}' )" href="">Quitar</a></p></td>
+                        </tr>
+                    {% endfor %}
+                    
+                    </tbody>
+                  </table>
+                    
+                {% else %}
+                    <h1>El miembro no tiene recursos asignados</h1>
+                {% endif %}
+                </div>
+                
+                <br>
+                
+                <!-- a class="btn btn-primary" href="{{object.get_update_url}}">Edit Miembro_Proyecto</a-->
+                <p><a class="btn btn-danger" href="{% url 'Inventario_proyectos_detalle' object.idProyecto.id %}">Volver</a></p>
+                {% else %}
+                    <h1>Instancia incorrecta.</h1>
+                {% endif %}
+            </div>
+        
+            
+        {% endblock %}
+        {% block js %}
+        <script>
+            function myFunction(idRecurso_Proyecto) {
+            
+                var r = confirm("¿Está seguro que desea quitar el recurso al miembro?");
+                
+                var txt;
+                
+                if (r == false) {
+                    txt = "You pressed Cancelar";
+                } else {
+                    $.ajax({
+                        method: 'GET',
+                        url: '/inventario/Inventario/desasignarRecursoMiembro/',
+                        data: {
+                            'idMiembro_Proyecto': {{ object.id }},
+                            'idRecurso_Proyecto': idRecurso_Proyecto,
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            // alert(response.resultado);
+                            
+                        }
+                    });
+                } 
+                console.log(txt)
+            }
+        </script>
+        {% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% load %}
+{% load extras %}
+{% load staticfiles %}
+{% csrf_token %}
+
+    <!-- head -->
+    {% load staticfiles %}
+    {% block head %}
+            <title>Inicio | Administrador</title> 
+    {% endblock %}
+    <!-- /head -->
+
+    <!-- body -->
+    {% block content %}
+           <!-- Page Content -->
+    <div class="container">
+        <div class=" w-100 py-5 text-center">
+            <H1 class="text-warning mt-5 mb-4">Bienvenidos a </H1>
+            <img src="{% static 'css/logo.png' %}" class="w-50 mb-5"><br>
+            <!--button class="btn btn-light">Más Información</button-->
+        </div >
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 bg-light  text-center  ">
+                <div class="title py-3">
+                    <h2 class="text-secondary">
+                        Proyectos 
+                    </h2>
+                    <a href="{% url 'Inventario_proyectos_list' %}">ver más > </a>
+                </div>
+                <img class="img-fluid my-4" src="{% static 'css/proyecto-citesoft.png' %}">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 bg-secondary  text-center  ">
+                <div class="title py-3">
+                    <h2 class="text-white">
+                        Recursos 
+                    </h2>
+                    <a href="{% url 'Inventario_recursos_listar' %}" class="text-light"> ver más > </a>
+                </div>
+                <img class="img-fluid my-4" src="{% static 'css/recurso-citesoft.png' %}">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12  text-center  " style="background: orange">
+                <div class="title py-3">
+                    <h2 class="text-white">
+                        Miembros 
+                    </h2>
+                    <a href="{% url 'Inventario_miembros_list' %}" class="text-dark">ver más > </a>
+                </div>
+                <img class="img-fluid my-4" src="{% static 'css/miembro-citesoft.png' %} ">
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 text-center bg-light "  >
+                <div class="title py-3">
+                    <h2 class="text-secondary">
+                        Entidades 
+                    </h2>
+                    <a href="{% url 'Inventario_entidad_list' %}">ver más > </a>
+                </div>
+                <img class="img-fluid my-4" src="{% static 'css/cargo-citesoft.png' %} ">
+            </div>
+
+
+        </div>
+
+    </div>
+    {% endblock %}
+
+    
+    <!-- /body -->

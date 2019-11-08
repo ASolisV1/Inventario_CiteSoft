@@ -1,0 +1,109 @@
+{% load static %}
+{% load %}
+{% load staticfiles %}
+{% csrf_token %}
+<!DOCTYPE html>
+<html>
+	{% if request.user.is_authenticated %}
+	<head>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+	    {% block head %}
+	    	<title>Default head</title>
+	    {% endblock %}
+	</head>
+    <body>
+
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <div class="sidebar-header">
+                    <h3>CiTeSoft</h3>
+                </div>
+                <ul class="sidebar-nav list-unstyled components">
+                    <div class="search">
+                        <ul class="sidebar-nav list-unstyled components">
+                            <li>
+                                <input type="text" name="search" class="input-search" placeholder="Buscar"><button type="button" class="btn btn-default btn-lg">
+                                <i class="fa fa-search"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <li class="panel panel-default " id="dropdown1">
+                       
+                        <li><a href="{% url 'Inventario_proyectos_list' %}">Proyectos</a></li>
+                        <li><a href="{% url 'Inventario_miembros_list' %}">Miembros</a></li>
+                        <li><a href="{% url 'Inventario_recursos_listar' %}">Recursos</a></li>
+                        <li><a href="{% url 'Inventario_entidad_list' %}">Entidades</a></li>
+                             
+                    </li>
+                </ul>
+                <ul class="sidebar-nav list-unstyled components">
+                    <li>
+                        <form method="POST">
+                        {% csrf_token %}
+                        <a href={% url 'logout' %}> Cerrar sesión </a>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <!-- /#sidebar-wrapper -->
+
+        {% load staticfiles %}   
+
+       
+        {% block content %}
+
+        <div class="jumbotron text-center">
+            <h1>Default content</h1>
+            <p>Resize this responsive page to see the effect!</p>
+        </div>
+        {% endblock %}
+        </div>
+
+        {% block footer %}
+        {% endblock %}
+
+        
+        <!-- SCRIPTS -->
+        <!-- Bootstrap core JavaScript -->
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+        <script>
+            $("#menu-toggle").click(function(e) {
+
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+                $('.overlay').fadeIn();
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        </script>
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                alert('{{ message }}')
+                </script>
+            {% endfor %}
+        {% endif %}
+    
+        {% block js %}
+        <!--nuevo script-->
+        {% endblock %}
+
+    </body>
+    {% else %}
+    	<body>You do not have access</body>
+    {% endif %}
+</html>
+
+

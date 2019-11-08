@@ -1,0 +1,126 @@
+        {% extends "base/base_miembro.html" %}
+        {% load static %}
+        {% load %}
+        {% load staticfiles %}
+        {% block title %}
+            {% if proyecto %}
+                <title>Proyecto {{ proyecto.nombre }}</title>
+            {% else %}
+                <title>Not found</title>
+            {% endif %}
+        {% endblock%}
+        {% block style %}    
+        <style> 
+            .row{
+            border-bottom: 1px solid silver;
+            }
+            .datos div{
+            border-radius: 0;
+            border:none;
+            border-bottom: 1px solid silver;
+            color: orange;  
+            padding-bottom: 0px;
+            }
+            textarea{
+            color: orange;  
+            }
+            label {
+            color: #999999;
+            }
+        </style>
+        
+        {% endblock %}
+        {% block content %}
+        {% if proyecto %}
+        <!-- Page Content -->
+        <div class="container my-5">
+            <div class="col-lg-12 my-5">
+                <!-- Portfolio Item Heading -->
+                <div class="">
+                    <h2 class="">PROYECTO</h2>
+                </div>
+            </div>
+            <div class="my-4">
+                <h3 class="">{{ proyecto.nombre }}</h3>
+            </div>
+            <!-- Portfolio Item Row -->
+            <div class="form-row my-3" id="form">
+                <div class="col-sm-12 col-lg-6 ">
+                    <div class="img-responsive-16by9 mx-auto w-75">
+                        <img class="img-fluid w-100 " src="{{ proyecto.foto.url }}" alt="">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <div class="datos">
+                        <div class="form-control">{{ proyecto.codigo }}</div>
+                        <label for="nombre">Código</label>
+                    </div>
+                    <div class="datos">
+                        <div class="datos">
+                            <div class="form-control">{{ proyecto.fecha_inicio }}</div>
+                            <label for="nombre">Fecha de inicio</label>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="datos my-4">
+                    <h4>Descripción</h4>
+                    <small class="color-gris"> {{ proyecto.descripcion }} </small>
+                </div>
+            </div>
+                
+            <div class="col-lg-12">
+                <h3 class="my-4"> Miembros</h3>
+                {%  if miembros %}
+                <div class="row">
+                    {% for miembro in miembros %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-mb-4 my-2">                            
+                        <div class="card ">
+                            
+                            <img class="mx-auto rounded-circle d-block mt-4 mx-auto bg-light" title="img" src="{{ miembro.idMiembro.foto.url }}" width="100" height="100">
+                            <a class="text-truncate text-center my-1  " href="#">
+                                <small class="text-secondary">{{ miembro.idMiembro }}</small>
+                            </a>
+                            
+                            <div class="w-100 text-center py-1 bg-light ">
+                                <small class="text-truncate"> {{ miembro.idCargo }}</small><br>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                    <h4> Sin miembros </h4>
+                {%  endif %}
+            </div>
+                
+            <div class="col-lg-12 my-3">
+                <h3 class="my-4">Recursos</h3>
+                {%  if recursos %}
+                <div class="row">
+                    {% for recurso in recursos %}
+                        <div class="card border-0  py-3 col-lg-3 col-md-6 col-sm-12  my-2">
+                            <div class="view overlay img-responsive-16by16-2">
+                                <img class="card-img-top " src="{{ recurso.idRecurso.foto.url }}" alt="Card image cap">
+                            </div>
+                            <div class="card pt-2 bg-light">
+                                    <small class="text-secondary">{{ recurso.idRecurso.nombre }}</small>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                    <h4> Sin recursos asignados </h4>
+                {%  endif %}
+            </div>
+        </div>
+                
+        {% block js %}
+      {%endblock%}    
+            
+    {% else %}
+    <title> Proyecto no existente </title>
+    <h1> Proyecto no existente </h1>
+    {% endif %}
+    {%endblock%}

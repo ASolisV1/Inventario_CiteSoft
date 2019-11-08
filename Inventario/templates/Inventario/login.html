@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        {% block css %}
+        <link rel="stylesheet" type="text/css" href="css/login.css">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="title-citesoft">
+            <h3>C</h3>
+            <h3>i</h3>
+            <h3>T</h3>
+            <h3>e</h3>
+            <h3>S</h3>
+            <h3>o</h3>
+            <h3>f</h3>
+            <h3>t</h3>
+        </div>
+        <button class="button-login" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Ingresar</button>
+        <button class=" bnt-solicitar" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Solicitar</button>
+        <div id="id01" class="modal">
+            <form class="modal-content animate" action="/action_page.php">
+                <div class="container">
+                    <h2>Ingresar</h2>
+                    <input type="text" placeholder="Ingresar usuario" name="uname" required="">
+                    <input type="password" placeholder="Ingresar password" name="psw" required="">
+                    <button class="button-submit" type="submit">Login</button>
+                    <label>
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                </div>
+                <div class="container opciones">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancelar</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+        <div id="id02" class="modal">
+            <form class="modal-content animate" action="/action_page.php">
+                <div class="container">
+                    <h2>Solicitar</h2>
+                    <input type="text" placeholder="Ingresar nombre" name="uname" required="">
+                    <input type="email" placeholder="Ingresar correo" name="psw" required="">
+                    <button class="button-submit" type="submit">Solicitar</button>
+                </div>
+                <div class="container opciones">
+                    <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn-solicitud">Cancelar</button>
+                </div>
+            </form>
+        </div>
+        
+        <script>
+            var modal = document.getElementById('id01');
+            var modal = document.getElementById('id02');
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    </body>
+</html>

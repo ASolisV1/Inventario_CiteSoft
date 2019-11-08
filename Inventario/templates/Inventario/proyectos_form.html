@@ -1,0 +1,94 @@
+{% extends "base/admin_group.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+    {% block head %}
+        <title>Registrar Proyecto</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <!-- Custom styles for this template -->
+        <link href="{% static 'css/index.css' %}" rel="stylesheet">
+        <style type="text/css">
+            .form-rounded {
+                border-radius: 5px;
+            }
+            .btn-secondary{color:#292b2c;background-color:#fff;border-color:#ccc}
+            .btn-secondary:hover{color:#292b2c;background-color:#e6e6e6;border-color:#adadad}
+            .btn-secondary.focus,.btn-secondary:focus{-webkit-box-shadow:0 0 0 2px rgba(204,204,204,.5);box-shadow:0 0 0 2px rgba(204,204,204,.5)}
+            .btn-secondary.disabled,.btn-secondary:disabled{color: #fff;background-color:#fff;border-color:#ccc}
+            .btn-secondary.active,.btn-secondary:active,.show>.btn-secondary.dropdown-toggle{color:#e6e6e6;background-color:#e6e6e6;background-image:none;border-color:#adadad}
+
+            
+            .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,.show > .btn-secondary.dropdown-toggle {  color: #fff;  background-color: #fff;  border-color: #ccc;}
+            .btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus,.show > .btn-secondary.dropdown-toggle:focus {  box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.5);}
+
+        </style>
+    {% endblock %}
+
+    {% block content %}
+        <div class="container">
+            <h1 class="my-4">Registro 
+                <small>proyecto</small>
+            </h1>
+            <form class="form-row mt-4" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" name="nombre">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="nombre">Codigo</label>
+                    <input type="text" class="form-control" name="codigo">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="tipo">Coordinador</label>
+                    {{ formCoordinador.idMiembro }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="celular">Imagen</label>
+                    <input type="file" class="form-control" id="files" name="foto" accept="image/*" required>
+                    <output id="list">
+                    <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+                    </output>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="exampleMessage">Descripción</label>
+                    <textarea class="form-control" rows="14" name="descripcion">
+                    </textarea>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="buscar-miembro">Fecha de inicio del proyecto</label>
+                    <input type="date" class="form-control" id="llegada" name="fecha_inicio">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <input type="submit" class="btn-primary form-control" id="submit" value="Guardar">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <input type="reset" class="btn-secondary form-control" id="reset">
+                </div>
+            </form>
+        </div>
+    {% endblock %}
+    {% block js %}
+        <script type="text/javascript">
+            function archivo(evt) {
+                var files = evt.target.files; 
+                for (var i = 0, f; f = files[i]; i++) {
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+                    var reader = new FileReader();
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                            document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                        };
+                    })(f);
+                        reader.readAsDataURL(f);
+                }
+            }
+            
+            document.getElementById('files').addEventListener('change', archivo, false);
+        </script>
+    {% endblock %}

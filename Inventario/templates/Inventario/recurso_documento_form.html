@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        {% load crispy_forms_tags %}
+        {% block title %}
+            <title>Agregar documento</title>>
+        {% endblock %}
+        {% block content %}
+        <div class="container">
+            {% if recurso %}
+            <h1>Agregar documento a {{ recurso.nombre }}</h1>
+            <form method="post">
+                <br>
+                {% csrf_token %}
+                <div class="col-sm-12 col-lg-12 pb-3">
+                    <label for="tipo">Documento</label>
+                    {{ form.idDocumento }}
+                </div>
+                <br>
+                <button class="btn btn-primary" type="submit">Agregar</button>
+                <a class="btn btn-danger" href="{% url 'Inventario_recursos_detail' recurso.id %}">Cancelar</a>
+
+            </form>
+            {% endif %}
+        </div>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,80 @@
+{% extends "base/base_miembro.html" %}
+{% load static %}
+{% load %}
+{% load staticfiles %}
+
+    {% block head %}
+        <title>Mis Préstamos</title>
+    {% endblock %}
+    {% block content %}
+	<div class="container bootstrap snippet information-user">
+	<div class="panel-body inf-content">
+		<div class="form-row my-5 col-sm-12 col-lg-12 col-md-12 ">
+	        <div  class="col-sm-12 col-lg-4 col-md-12">
+	          <h2>Mis Préstamos</h2>
+	        </div>
+        </div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<h4>Préstamos Actuales</h4>
+					<!-- LISTAR PŔESTAMOS ACTUALES, QUE AUN NO HAN SIDO DEVUELTOS -->
+					{% for prestamo_actual in prestamos_actuales %}
+						En el proyecto: {{ prestamo_actual.idMiembro_Proyecto.idProyecto.nombre }}
+						<br>
+						Recurso: {{ prestamo_actual.idRecurso_Proyecto.idRecurso }} (del proyecto {{ prestamo_actual.idRecurso_Proyecto.idProyecto }})
+						<br>
+						<!-- Boton cancelar prestamo -->
+						<br>
+						<div class="container opciones">
+							<!--cancelar prestamo -->
+					        <!--a class="btn btn-danger" href="#">Cancelar</a-->
+					    </div>
+					{% endfor %}
+
+				</table>
+				</div>
+
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<h4>Solicitudes Actuales</h4>
+					<!-- LISTAR PŔESTAMOS ACTUALES, QUE AUN NO HAN SIDO DEVUELTOS -->
+					{% for solicitud in solicitudes_actuales %}
+						En el proyecto: {{ solicitud.idMiembro_Proyecto.idProyecto.nombre }}
+						<br>
+						Recurso: {{ solicitud.idRecurso_Proyecto.idRecurso }} (del proyecto {{ solicitud.idRecurso_Proyecto.idProyecto }})
+						<br>
+						
+						<!-- Boton cancelar prestamo -->
+						<br>
+						<div class="container opciones">
+							<!--cancelar prestamo -->
+					        <!--a class="btn btn-danger" href="#">Cancelar</a-->
+					    </div>
+					{% endfor %}
+
+				</table>
+				</div>
+
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<h4>Préstamos pasados</h4>
+					{% if prestamos_pasados %}
+					{% for prestamo_pasado in prestamos_pasados %}
+						Proyecto: {{ prestamo_pasado.idMiembro_Proyecto.idProyecto.nombre }}
+						<br>
+						Recurso: {{ prestamo_pasado.idRecurso_Proyecto.idRecurso }}
+						<br>
+					{% endfor %}
+					{% else %}
+						Ustes no tiene ningun préstamo pasado
+					{% endif %}
+					<!-- LISTAR PRESTAMOS PASADOS, SE PODRIAN INCLUIR OBSERVADOS -->
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>                                        
+	{% endblock %}

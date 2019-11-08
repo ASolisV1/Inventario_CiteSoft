@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>CiTeSoft</title>
+    </head>
+    <body>
+        {% load static %}
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script src="{% static 'js/bootstrap.min.js' %}" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <script src="{% static 'js/jquery-1.12.2.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <!-- Custom styles for this template -->
+        <link href="{% static 'css/index.css' %}" rel="stylesheet">
+        <!-- Contenido que quieras -->
+        <div class="container">
+            <h1 class="my-4">Registro 
+                <small>recurso</small>
+            </h1>
+            <form class="form-row mt-4" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required="">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="tipo">Tipo</label>
+                    {{ form.tipo }}
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="llegada">Fecha de llegada</label>
+                    <input type="date" class="form-control" name="fecha_ingreso" id="llegada" required>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="celular">Imagen</label>
+                    <input type="file" accept="image/*" class="form-control" id="files" placeholder="142424" name="foto" required>
+                    <output id="list" class="img-responsive-16by9">
+                    <img class="card-img-top " src="http://placehold.it/700x400" alt="">
+                    </output>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="exampleMessage">Características</label>
+                    <textarea class="form-control" rows="14" id="exampleMessage" name="caracteristicas" required value=""></textarea>
+                    <small class="text-info">
+                    Agrega las características del producto.
+                    </small>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="codigo_produto " class="pb-3">Códigos de los Recursos</label>
+                    <div id="bt_del" class="btn btn-danger float-right mr-2">Eliminar</div>
+                    <div id="bt_add" class="btn btn-primary float-right mr-2">Agregar</div>
+                    <table id="tabla" class="table">
+                        <thead>
+                            <tr>
+                                <td>Nº</td>
+                                <td>Código de Patrimonio</td>
+                                <td>Número de Producto</td>
+                                <td>Número de serie</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" class="form-control" name="cod_1_1" required></td>
+                                <td><input type="text" class="form-control" name="cod_1_2" required></td>
+                                <td><input type="text" class="form-control" name="cod_1_3" required></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-5">
+                    <label for="exampleSt">Proveedor</label>
+                    <select class="form-control" id="PROVEEDOR" placeholder="selecciona">
+                        <option>---------</option>
+                        <option>miembro 1</option>
+                        <option>miembro 2</option>
+                        <option>miembro 3</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <input type="submit" class="btn-primary  form-control" id="submit">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <input type="reset" class="btn-secondary form-control" id="reset">
+                </div>
+            </form>
+        </div>
+        <br><br><br><br><br><br><br><br><br>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#bt_add').click(function(){
+                    agregar();
+                });
+                $('#bt_del').click(function(){
+                    eliminar(id_fila_selected);
+                });
+            
+            });
+            var cont=0;
+            var id_fila_selected=[];
+            function agregar(){
+                cont++;
+                var fila='<tr class="selected" id="fila'+cont+'" onclick="seleccionar(this.id);">'+
+                         '<td>'+cont+'</td>'+
+                         '<td><input type="text" class="form-control" name="cod_1_1" required></td>'+
+                         '<td><input type="text" class="form-control" name="cod_1_2" required></td>'+
+                         '<td><input type="text" class="form-control" name="cod_1_3" required></td>'+
+                         '</tr>';
+                $('#tabla').append(fila);
+                reordenar();
+            }
+            
+            function seleccionar(id_fila){
+                if($('#'+id_fila).hasClass('seleccionada')){
+                    $('#'+id_fila).removeClass('seleccionada');
+                }
+                else{
+                    $('#'+id_fila).addClass('seleccionada');
+                }
+                //2702id_fila_selected=id_fila;
+                id_fila_selected.push(id_fila);
+            }
+            
+            function eliminar(id_fila){
+                /*$('#'+id_fila).remove();
+                reordenar();*/
+                for(var i=0; i<id_fila.length; i++){
+                    $('#'+id_fila[i]).remove();
+                }
+                reordenar();
+            }
+            
+            function reordenar(){
+                var num=1;
+                $('#tabla tbody tr').each(function(){
+                    $(this).find('td').eq(0).text(num);
+                    num++;
+                });
+            }
+            
+            
+                      function archivo(evt) {
+                          var files = evt.target.files; 
+                     
+                          for (var i = 0, f; f = files[i]; i++) {
+                      
+                            if (!f.type.match('image.*')) {
+                                continue;
+                            }
+                     
+                            var reader = new FileReader();
+                     
+                            reader.onload = (function(theFile) {
+                                return function(e) {
+                                 document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                                };
+                            })(f);
+                     
+                            reader.readAsDataURL(f);
+                          }
+                      }
+                     
+                      document.getElementById('files').addEventListener('change', archivo, false);
+              
+        </script>
+    </body>
+</html>

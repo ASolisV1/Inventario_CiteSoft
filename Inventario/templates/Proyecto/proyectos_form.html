@@ -1,0 +1,76 @@
+{% extends "base/base_administrador.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+    {% block head %}
+        <title>Registrar Proyecto</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    {% endblock %}
+
+    {% block content %}
+        <div class="container">
+            <h1 class="my-5">Registro 
+                <small>proyecto</small>
+            </h1>
+            <form class="form-row mt-4" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="nombre">Nombre *</label>
+                    <input type="text" class="form-control" name="nombre">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="nombre">Codigo *</label>
+                    <input type="text" class="form-control" name="codigo">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="tipo">Coordinador *</label>
+                    {{ formCoordinador.idMiembro }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="celular">Imagen *</label>
+                    <input type="file" class="form-control" id="files" name="foto" accept="image/*" required>
+                    <output id="list" class="img-responsive-16by9">
+                    <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+                    </output>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="exampleMessage">Descripción *</label>
+                    <textarea class="form-control" rows="14" name="descripcion"></textarea>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="buscar-miembro">Fecha de inicio del proyecto *</label>
+                    <input type="date" class="form-control" id="llegada" name="fecha_inicio">
+                </div>
+                
+                <div class="col-sm-12 col-lg-6 pb-3">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <input type="submit" class="btn-primary form-control" id="submit" value="Guardar">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <!--input type="reset" class="btn-secondary form-control" id="reset"-->
+                    <a href="{% url 'Inventario_proyectos_list' %}" class="btn btn-danger form-control">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    {% endblock %}
+    {% block js %}
+        <script type="text/javascript">
+            function archivo(evt) {
+                var files = evt.target.files; 
+                for (var i = 0, f; f = files[i]; i++) {
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+                    var reader = new FileReader();
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                            document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                        };
+                    })(f);
+                        reader.readAsDataURL(f);
+                }
+            }
+            
+            document.getElementById('files').addEventListener('change', archivo, false);
+        </script>
+    {% endblock %}

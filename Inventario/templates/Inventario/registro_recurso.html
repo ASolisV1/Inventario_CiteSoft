@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Registrar Recursos</title>
+    <!-- Bootstrap core CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+         <style>
+          .thumb {
+            margin: 10px 5px 0 0;
+          }
+          output {
+            margin: 10px 5px 0 0;
+          }
+        </style>
+</head>
+<body>
+            <!-- Contenido que quieras -->
+            <div class="container">
+                  <h1 class="my-4">Registrar 
+                  <small>recurso</small>
+                  </h1>
+                  <form class="form-row mt-4" method="post">
+                        {% csrf_token %}
+                        <!-- {{ form.as_p }} -->
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="nombre">Nombres</label>
+                            <input type="text" class="form-control" id="nombre" name = "nombre">
+                        </div>
+                         <div class="col-sm-12 col-lg-3 pb-3">
+                            <label for="exampleSt">Tipo de recurso</label>
+                            <select class="form-control" id="exampleSt" placeholder="selecciona" name="tipo">
+                                <option>---------</option>
+                                <option>Tangible</option>
+                                <option>Intangible</option>
+                            </select>
+
+                        </div>
+                        <div class="col-sm-12 col-lg-3 pb-3">
+                            <label for="llegada">Fecha de llegada</label>
+                            <input type="date" class="form-control" id="llegada" placeholder="00-00-00">
+                        </div>
+                     
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="celular">Imagen</label>
+                            <input type="file" class="form-control" id="files" placeholder="142424" name ="foto">
+                            <output id="list">
+                                <img class="card-img-top" src="http://placehold.it/700x400" alt="">
+                            </output>
+                        </div>
+                        
+                         <div class="col-sm-12 col-lg-6 pb-3">
+                            <label for="exampleMessage">Descripción</label>
+                            <textarea class="form-control" rows="14" id="exampleMessage" name="caracteristicas"></textarea>
+                            <small class="text-info">
+                              Agrega las caracteristicas del producto.
+                            </small>
+                        </div>
+                
+                        <div class="col-sm-12 col-lg-6 pb-3">
+                             <label for="exampleMessage">Codigo Producto</label>
+                            
+                            <table class="pb-10">
+                                <!--
+                                <tr class="col-lg-12">
+                                    <td><label for="exampleSt">Codigos patrimonio</label></td>
+                                    <td><label for="exampleSt">Codigos patrimonio</label></td>
+                                    <td><label for="exampleSt">Codigos patrimonio</label></td>
+                                </tr> -->
+                                <tr id="tabla-codigo" class="col-lg-12">
+                                    <td><input type="text" class="form-control" name="cod_1_1" placeholder="Codigo 1" ></td>
+                                    <td><input type="text" class="form-control" name="cod_1_2" placeholder="Codigo 2"></td>
+                                    <td><input type="text" class="form-control" name="cod_1_3" placeholder="Codigo 3"></td> 
+                                    <td><div class="btn-primary form-control" id="agregar">+</div></td>    
+                                </tr>
+
+                            </table>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-6 pb-5">
+                            <label for="exampleSt">Proveedor</label>
+                            <select class="form-control" id="exampleSt" placeholder="selecciona">
+                                <option>---------</option>
+                                <option>miembro 1</option>
+                                <option>miembro 2</option>
+                                <option>miembro 3</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-12 col-lg-3 pb-3">
+                            
+                            <input type="submit" class="btn-primary color-orange form-control" id="submit" placeholder="qwer">
+                        </div>
+                        <div class="col-sm-12 col-lg-3 pb-3">
+
+                            <input type="reset" class="btn-secondary form-control" id="reset" placeholder="qwer">
+                        </div>
+                      </form>  
+                </div>
+
+              
+
+    <script>
+        $('#agregar').click(function( event ) {
+            
+            $('#tabla-codigo').before('<tr class="col-lg-12">'+
+                                    '<td><input type="text" class="form-control" name="cod_1_1" placeholder="Codigo 1" ></td>'+
+                                    '<td><input type="text" class="form-control" name="cod_1_2" placeholder="Codigo 2"></td>'+
+                                    '<td><input type="text" class="form-control" name="cod_1_3" placeholder="Codigo 3"></td>'+ 
+                                    '<td><div class="btn-danger form-control" id="agregar">x</div></td>'+    
+                                    '</tr>')
+        });
+
+
+              function archivo(evt) {
+                  var files = evt.target.files; // FileList object
+             
+                  // Obtenemos la imagen del campo "file".
+                  for (var i = 0, f; f = files[i]; i++) {
+                    //Solo admitimos imágenes.
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+             
+                    var reader = new FileReader();
+             
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                          // Insertamos la imagen
+                         document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                        };
+                    })(f);
+             
+                    reader.readAsDataURL(f);
+                  }
+              }
+             
+              document.getElementById('files').addEventListener('change', archivo, false);
+      </script>
+
+</body>
+
+</html>

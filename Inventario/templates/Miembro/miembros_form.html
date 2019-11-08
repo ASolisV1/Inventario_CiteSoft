@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head></head>
+    <body>
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        
+        {% block title %}
+            <title>Registrar Miembro</title>
+        {% endblock%}
+        
+        {% block content %}
+        <!-- Contenido que quieras -->
+        <div class="container">
+            <h1 class="my-5">Registro 
+                <small>Miembro</small>
+            </h1>
+            <!--{{ formMiembro.as_p }} -->
+            <form class="form-row " method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="nombre">Nombres *</label>
+                    {{ formMiembro.nombre }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="apellido">Apellidos *</label>
+                    {{ formMiembro.apellido }}
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="nacimiento">Fecha de nacimiento *</label>
+                    <input type="date" class="form-control" name="fecha_nacimiento" placeholder="00-00-00" required="">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="celular">Documento de Identidad *</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Nº</span></div>
+                        {{ formMiembro.dni }}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="celular">N° Celular *</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text">Nº</span></div>
+                        {{ formMiembro.telefono }}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <label for="nacimiento">Fecha de Ingreso *</label>
+                    <input type="date" class="form-control" name="fecha_ingreso" placeholder="00-00-00" required="">
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="exampleSt"> Grado Académico *</label>
+                    {{ formMiembro.grado_academico }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="correo">Correo electrónico *</label>
+                    {{ formMiembro.correo }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="fotoMiembro">Foto *</label>
+                    <input type="file" accept="image/*" class="form-control" name="fotoMiembro" id="fotoMiembro" placeholder="142424" required>
+                    <output id="list" class="img-responsive-16by16-2">
+                    <img class="card-img-top" src="http://placehold.it/400x400" alt="">
+                    </output>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3"> * Datos obligatorios</div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <input type="submit" class="btn-primary color-orange form-control" id="btnsub" value="Guardar" required="">
+                </div>
+                <div class="col-sm-12 col-lg-3 pb-3">
+                    <a href="{% url 'Inventario_miembros_list' %}" id="editar" class="btn btn-danger form-control">Cancelar</a>
+                    <!--input type="reset" class="btn-secondary form-control" id="nacimiento" required=""-->
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+            function archivo(evt) {
+                var files = evt.target.files; 
+            
+                for (var i = 0, f; f = files[i]; i++) {
+            
+                  if (!f.type.match('image.*')) {
+                      continue;
+                  }
+            
+                  var reader = new FileReader();
+            
+                  reader.onload = (function(theFile) {
+                      return function(e) {
+                       document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" width="500" height="400" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                      };
+                  })(f);
+            
+                  reader.readAsDataURL(f);
+                }
+            }
+            
+            document.getElementById('fotoMiembro').addEventListener('change', archivo, false);
+        </script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#txtConfirmPassword").keyup(checkPasswordMatch);
+            });
+            
+            function checkPasswordMatch() {
+                var password = $("#id_password").val();
+                var confirmPassword = $("#txtConfirmPassword").val();
+            
+                if (password != confirmPassword){
+                    $("#divCheckPasswordMatch").html("Las contraseñas no coinciden.");
+                    $("#btnsub").prop('disabled', true);
+                }
+            
+                else{
+                    $("#divCheckPasswordMatch").html("");
+                    $("#btnsub").prop('disabled', false);
+                }
+            }
+            
+            $(document).ready(function () {
+               $("#txtConfirmPassword").keyup(checkPasswordMatch);
+            });
+            
+        </script>
+        
+        {% if messages %}
+            {% for message in messages %}
+            <script>
+                alert('{{ message }}')
+            </script>
+            {% endfor %}
+        {% endif %}
+        
+        {% endblock %}
+    </body>
+</html>

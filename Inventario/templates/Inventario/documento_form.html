@@ -1,0 +1,28 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% block title %}
+    <title>Registrar documento</title>
+{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+    <div class="col-lg-12 my-5 ">
+        <h1  class="">Registrar documento</h1>
+    </div>	
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form|crispy}}
+
+		<br>
+		<p>* Datos obligatorios</p>
+		<div class="col-sm-12 col-lg-3 pb-3">
+			<input type="submit" class="btn-primary form-control" id="submit" value="Guardar">
+		</div>
+	</form>
+	<div class="col-sm-12 col-lg-3 pb-3">
+		<!--input type="reset" class="btn-secondary form-control" id="reset"-->
+		<a href="{% url 'Inventario_documento_list' %}" class="btn btn-danger form-control">Cancelar</a>
+	</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'Inventario_miembros_list' %}">Miembros Listing</a></p>
+<table class="table">
+<tr><td>created</td><td>{{ object.created }}</td></tr>
+<tr><td>last_updated</td><td>{{ object.last_updated }}</td></tr>
+<tr><td>nombre</td><td>{{ object.nombre }}</td></tr>
+<tr><td>apellido</td><td>{{ object.apellido }}</td></tr>
+<tr><td>dni</td><td>{{ object.dni }}</td></tr>
+<tr><td>fecha_ingreso</td><td>{{ object.fecha_ingreso }}</td></tr>
+<tr><td>foto</td><td></td></tr>
+<tr><td>telefono</td><td>{{ object.telefono }}</td></tr>
+<tr><td>correo</td><td>{{ object.correo }}</td></tr>
+<tr><td>fecha_nacimiento</td><td>{{ object.fecha_nacimiento }}</td></tr>
+<tr><td>tipo_miembro</td><td>{{ object.tipo_miembro }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit Miembros</a>
+
+{% endblock %}

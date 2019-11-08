@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Inventario Citesoft</title>
+    </head>
+    <body>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+        <div class="title-citesoft">
+            <a href="{% url 'login' %}" class ="btn bnt-regresar"  style="width:auto;">Volver</a>
+
+            <form class="modal-content-solicitar animate" method="post">
+              {% csrf_token %}
+              <h2>Solicitar Cuenta</h2>
+              <div class="container">
+                {{ formSolicitud.first_name }}
+                {{ formSolicitud.last_name }}
+                {{ formSolicitud.username }} 
+                {{ formSolicitud.email }}   
+              
+                <button class="button-submit" >Solicitar Cuenta</button>
+              </div>
+            </form>
+              
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <script>
+            alert('{{ message }}')
+        </script>
+        {% endfor %}
+        {% endif %}
+        
+    </body>
+</html>

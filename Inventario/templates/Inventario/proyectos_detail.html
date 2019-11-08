@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'Inventario_proyectos_list' %}">Proyectos Listing</a></p>
+<table class="table">
+<tr><td>created</td><td>{{ object.created }}</td></tr>
+<tr><td>last_updated</td><td>{{ object.last_updated }}</td></tr>
+<tr><td>codigo</td><td>{{ object.codigo }}</td></tr>
+<tr><td>nombre</td><td>{{ object.nombre }}</td></tr>
+<tr><td>descripcion</td><td>{{ object.descripcion }}</td></tr>
+<tr><td>fecha_inicio</td><td>{{ object.fecha_inicio }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit Proyectos</a>
+
+{% endblock %}

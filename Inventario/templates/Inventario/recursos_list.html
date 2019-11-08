@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'Inventario_recursos_list' %}">recursos Listing</a></p>
+<table class="table">
+<tr>
+<td>ID</td><td>Link</td>
+    <td>created</td>
+    <td>last_updated</td>
+    <td>cod_patrimonio</td>
+    <td>nro_producto</td>
+    <td>nro_serie</td>
+    <td>nombre</td>
+    <td>foto</td>
+    <td>fecha_ingreso</td>
+    <td>caracteristicas</td>
+    <td>tipo</td>
+</tr>
+{% for object in object_list %}
+<tr>
+    <td>{{object.pk}}</td>
+    <td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
+    <td>{{ object.created }}</td>
+    <td>{{ object.last_updated }}</td>
+    <td>{{ object.cod_patrimonio }}</td>
+    <td>{{ object.nro_producto }}</td>
+    <td>{{ object.nro_serie }}</td>
+    <td>{{ object.nombre }}</td>
+    <td><img src="{{ object.foto }}" alt="img"></td>
+    <td>{{ object.fecha_ingreso }}</td>
+    <td>{{ object.caracteristicas }}</td>
+    <td>{{ object.tipo }}</td>
+</tr>
+{% endfor %}
+</table><a class="btn btn-primary" href="{% url 'Inventario_recursos_create' %}">Create new recursos</a>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% block title %}
+<title>Proyectos</title>
+{% endblock %}
+{% block content %}
+
+ <div  class="container">
+
+      <!-- Portfolio Item Heading -->
+      <div class=" my-5 w-100 ">
+        <div  class="float-left mb-2">
+          <h2>Proyectos</h2>
+        </div>
+        <div class="float-right mb-3">
+          <a  href="{% url 'Inventario_proyectos_create' %}" class="btn btn-primary " >+Agregar </a>
+        </div>
+        <div class="">
+          <form method="post">
+            {% csrf_token %}
+            <input type="search" class="form-control" name="nombre" placeholder="Buscar Proyecto"> 
+          </form>
+      
+        </div>
+         
+      </div>
+      
+        <div class="row">
+            {% if proyectoEsp %}
+                {% for proyecto in proyectoEsp %}
+                <div class="card border-0 px-5 py-3 col-lg-6 col-md-6  my-2">
+    
+              <!-- Card image -->
+                  <div class="view overlay img-responsive-16by9">
+                    <img class="card-img-top " src="{{ proyecto.foto.url }}" alt="Card image cap">
+                  </div>
+    
+                  <!-- Card content -->
+                  <div class="card pt-2 ">
+                            <!-- Title -->
+                            <div class="w-100 ">
+                              <h5 class="card-title mx-3 text-truncate">{{ proyecto.nombre }}</h5>
+                            </div>
+                            <!-- Text -->
+                            <small class="card-text text-truncate text-secundary color-gris mx-3">{{ proyecto.descripcion }}</small>
+                            <!-- Link -->
+                            <div class="row my-3 mx-1">  
+                              <div class="col-6 my-auto ">
+                              </div>
+                              <div class="col-6">
+                                <a href="{{object.get_absolute_url}}" class="btn btn-primary float-right ">
+                                  Ver proyecto</a>
+                              </div>
+                              
+                              
+                            </div>
+
+                        </div>
+    
+                </div> 
+                {% endfor%}
+                <hr width="100%">
+            {% else %}
+                <hr width="100%">
+            {% endif %}
+            
+            {% if proyectos %}
+                {% for object in proyectos %}
+                    <div class="card border-0 px-5 py-3 col-lg-6 col-md-6  my-2">
+                        <!-- Card image -->
+                        <div class="view overlay img-responsive-16by9">
+                            <img class="card-img-top " src="{{ object.foto.url }}" alt="Card image cap">
+                        </div>
+                        
+                        <!-- Card content -->
+                        <div class="card pt-2 ">
+                            <!-- Title -->
+                            <div class="w-100 ">
+                              <h5 class="card-title mx-3 text-truncate">{{ object.nombre }}</h5>
+                            </div>
+                            <!-- Text -->
+                            <small class="card-text text-truncate text-secundary color-gris mx-3">{{ object.descripcion }}</small>
+                            <!-- Link -->
+                            <div class="row my-3 mx-1">  
+                              <div class="col-6 my-auto ">
+                              </div>
+                              <div class="col-6">
+                                <a href="{{object.get_absolute_url}}" class="btn btn-primary float-right ">
+                                  Ver proyecto</a>
+                              </div>
+                              
+                              
+                            </div>
+
+                        </div>
+                    </div> 
+                {% endfor %}
+            {% else %}
+                <h1>No hay proyectos registrados</h1>
+            {% endif %}
+            
+        </div>    
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+        {% load staticfiles %}        
+            <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+        {% block css %}
+        <!--nuevo css -->
+        {% endblock %}
+        {% block content %}
+        <div class="jumbotron text-center">
+            <h1>My First Bootstrap Page</h1>
+            <p>Resize this responsive page to see the effect!</p>
+        </div>
+        {% endblock %}
+        {% block footer %}
+        {% endblock %}
+        {% block js %}
+        <!--nuevo script-->
+        {% endblock %}
+    </body>
+</html>

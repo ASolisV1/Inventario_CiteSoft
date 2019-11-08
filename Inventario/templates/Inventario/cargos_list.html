@@ -1,0 +1,29 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% block head %}
+<title>Cargos</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="form-row my-4 col-sm-12 col-lg-12 col-md-12 ">
+<h1>Cargos</h1>
+</div>
+<!--p><a class="btn btn-default" href="{% url 'Inventario_cargos_list' %}">Cargos Listing</a></p-->
+<table class="table">
+<tr>
+    <td>ID</td>
+    <td>Nombre</td>
+    <td>Acciones</td>
+</tr>
+{% for object in object_list %}
+<tr>
+    <td>{{object.pk}}</td>
+    <!--td><a href="{{object.get_absolute_url}}">{{object}}</a></td-->
+    <td><a>{{object}}</a></td>
+    <td><a class="btn btn-primary" href="{{object.get_update_url }}">Editar</a></td>
+</tr>
+{% endfor %}
+<!--/table><a class="btn btn-primary" href="{% url 'Inventario_cargos_create' %}">Registrar cargos</a-->
+</div>
+{% endblock %}

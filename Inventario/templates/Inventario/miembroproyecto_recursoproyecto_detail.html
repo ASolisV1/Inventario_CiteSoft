@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'Inventario_miembroproyecto_recursoproyecto_list' %}">MiembroProyecto_RecursoProyecto Listing</a></p>
+<table class="table">
+<tr><td>created</td><td>{{ object.created }}</td></tr>
+<tr><td>last_updated</td><td>{{ object.last_updated }}</td></tr>
+<tr><td>observacion</td><td>{{ object.observacion }}</td></tr>
+<tr><td>estado</td><td>{{ object.estado }}</td></tr>
+<tr><td>fecha</td><td>{{ object.fecha }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit MiembroProyecto_RecursoProyecto</a>
+
+{% endblock %}

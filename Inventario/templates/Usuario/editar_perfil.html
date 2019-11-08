@@ -1,0 +1,138 @@
+{% extends "base/base_miembro.html" %}
+{% load static %}
+{% load %}
+{% load staticfiles %}
+
+    {% block head %}
+        <title>Perfil</title>
+       
+    {% endblock %}
+    {% block content %}
+	<div class="container bootstrap snippet information-user">
+	<div class="panel-body inf-content">
+		<form method="post" action="{% url 'editar_datos_miembro' miembro.dni %} " enctype="multipart/form-data">
+		    {% csrf_token %}
+		    <div class="col-sm-12 col-lg-6 pb-3">
+		        <label for="foto">Foto:</label>
+		        <div class="typeahead__container">
+		            <div class="typeahead__field">
+		                <span class="typeahead__query">
+		                <!--input required class="form-control" id="nombre" name="nombre" type="text" autocomplete="off" value="{{ miembro.nombre }}"-->
+		                <input type="file" id="foto" name="foto" class="form-control" accept="/image">
+		                <output id="fotomiembro">
+	                    	<img class="card-img-top" src="{{miembro.foto.url}}" alt="">
+	                    </output>
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="col-sm-12 col-lg-6 pb-3">
+		        <label for="nombre">Nombres:</label>
+		        <div class="typeahead__container">
+		            <div class="typeahead__field">
+		                <span class="typeahead__query">
+		                <input required class="form-control" id="nombre" name="nombre" type="text" autocomplete="off" value="{{ miembro.nombre }}">
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="col-sm-12 col-lg-6 pb-3">
+		        <label for="apellido">Apellidos:</label>
+		        <div class="typeahead__container">
+		            <div class="typeahead__field">
+		                <span class="typeahead__query">
+		                <input required class="form-control" id="apellido" name="apellido" type="text" autocomplete="off" value="{{ miembro.apellido }}">
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="col-sm-12 col-lg-6 pb-3">
+		        <label for="correo">Correo:</label>
+		        <div class="typeahead__container">
+		            <div class="typeahead__field">
+		                <span class="typeahead__query">
+		                <input required class="form-control" id="correo" name="correo" type="email" autocomplete="off" value="{{ miembro.correo }}">
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="col-sm-12 col-lg-6 pb-3">
+		        <label for="fecha_ingreso">Fecha de ingreso:</label>
+		        <div class="typeahead__container">
+		            <div class="typeahead__field">
+		                <span class="typeahead__query">
+		                <input required class="form-control" placeholder="00-00-00" id="fecha_ingreso" name="fecha_ingreso" type="date" autocomplete="off" value="{{ miembro.fecha_ingreso|date:'mm/dd/YY' }}"-->
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="col-sm-12 col-lg-6 pb-3">
+		        <label for="telefono">Teléfono:</label>
+		        <div class="typeahead__container">
+		            <div class="typeahead__field">
+		                <span class="typeahead__query">
+		                <input required class="form-control" id="telefono" name="telefono" type="text" autocomplete="off" value="{{ miembro.telefono }}">
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="col-sm-12 col-lg-6 pb-3">
+		        <label for="grado_academico">Grado académico:</label>
+		        <div class="typeahead__container">
+		            <div class="typeahead__field">
+		                <span class="typeahead__query">
+			                <select class="form-control" name="grado_academico" id="grado_academico">
+		                        <option selected value="{{ miembro.grado_academico }}">{{ miembro.grado_academico }}</option>
+		                        {% if otros_grados_academicos %}
+		                        {% for ga in otros_grados_academicos %}
+		                            <option value="{{ ga }}">{{ ga }}</option>
+		                        {% endfor %}
+		                        {% endif %}
+		                    </select>
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+
+		 
+		 
+		 
+		    <div class="container opciones">
+		        <button class="btn btn-primary button-submit" type="submit">Guardar cambios</button>
+		        <a class="btn btn-danger" href="{% url 'profile' miembro.dni %}">Cancelar</a>
+		    </div>
+
+		 </form>
+
+	</div>
+	</div>   
+		<script type="text/javascript">
+			function archivo(evt) {
+                var files = evt.target.files; 
+            
+                for (var i = 0, f; f = files[i]; i++) {
+            
+                  if (!f.type.match('image.*')) {
+                      continue;
+                  }
+            
+                  var reader = new FileReader();
+            
+                  reader.onload = (function(theFile) {
+                      return function(e) {
+                       document.getElementById("fotomiembro").innerHTML = ['<img class="thumb card-img-top" width="500" height="400" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                      };
+                  })(f);
+            
+                  reader.readAsDataURL(f);
+                }
+            }
+            document.getElementById('foto').addEventListener('change', archivo, false);
+        </script>                                     
+	{% endblock %}

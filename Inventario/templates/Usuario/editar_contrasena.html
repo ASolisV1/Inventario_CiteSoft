@@ -1,0 +1,91 @@
+{% extends "base/base_miembro.html" %}
+{% load static %}
+{% load %}
+{% load staticfiles %}
+
+    {% block head %}
+        <title>Perfil</title>
+       
+    {% endblock %}
+    {% block content %}
+
+	<div class="container bootstrap snippet information-user">
+	<div class="panel-body inf-content">
+		<form method="post" action="{% url 'editar_miembro_password' miembro.dni %} ">
+		    {% csrf_token %}
+		    
+		    <div class="col-sm-12 col-lg-6 pb-3">
+		        <label >Escribe tu contraseña actual {{ resp }} :</label>
+		        <div class="typeahead__container">
+		            <div class="typeahead__field">
+		                <span class="typeahead__query">
+		                <input type="password" required class="form-control" name="contra_actual" type="text"  autocomplete="off" value="">
+		                </span>
+		            </div>
+		        </div>
+		    </div>
+
+
+		   <div class="col-sm-12 col-lg-6 pb-3">
+            <label for="repetirContraseña">Escribe nueva Contraseña *</label>
+            <input type="password" class="form-control" id="id_password" name= "contra_nueva"  required />
+             <button class="btn btn-primary" type="button" onclick="mostrarContrasena()">Mostrar Contraseña</button>
+           </div>
+            <div class="col-sm-12 col-lg-6 pb-3">
+            	<label for="repetirContraseña">Confirmar Contraseña *</label>
+            	<input type="password" class="form-control" id="txtConfirmPassword"  required onChange="checkPasswordMatch();" name= "contra_nueva_confirmada"/>
+
+                <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
+            </div> 
+		 
+		 
+		 
+		    <div class="container opciones">
+		        <button class="btn btn-primary button-submit" type="submit">Guardar cambios</button>
+		        <a class="btn btn-danger" href="{% url 'profile' miembro.dni %}">Cancelar</a>
+		    </div>
+
+		 </form>
+
+	</div>
+	</div>   
+		<script type="text/javascript">
+		
+
+    function checkPasswordMatch() {
+        var password = $("#id_password").val();
+        var confirmPassword = $("#txtConfirmPassword").val();
+
+        if (password != confirmPassword){
+            $("#divCheckPasswordMatch").html("Las contraseñas no coinciden.");
+            $("#btnsub").prop('disabled', true);
+        }
+
+        else{
+            $("#divCheckPasswordMatch").html("");
+            $("#btnsub").prop('disabled', false);
+        }
+    }
+
+    $(document).ready(function () {
+       $("#txtConfirmPassword").keyup(checkPasswordMatch);
+    });
+
+ function mostrarContrasena(){
+      var tipo = document.getElementById("id_password");
+      if(tipo.type == "password"){
+          tipo.type = "text";
+      }else{
+          tipo.type = "password";
+      }
+  }
+    </script>                                 
+	{% endblock %}
+
+  {% if messages %}
+    {% for message in messages %}
+      <script>
+        alert('{{ message }}')
+      </script>
+    {% endfor %}
+  {% endif %}

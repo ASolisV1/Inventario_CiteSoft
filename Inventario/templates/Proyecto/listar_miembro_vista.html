@@ -1,0 +1,90 @@
+{% extends "base/base_miembro.html" %}
+{% load static %}
+{% block title %}
+<title>Proyectos</title>
+{% endblock %}
+{% block content %}
+
+ <div  class="container">
+
+      <!-- Portfolio Item Heading -->
+      <div class="form-row my-5 col-sm-12 col-lg-12 col-md-12 ">
+        <div  class="  col-sm-12 col-lg-4 col-md-12">
+          <h2>Proyectos</h2>
+        </div>
+
+        <div class="form-row  col-sm-12 col-md-12 col-lg-8">
+         
+          <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8  ">
+                 <form method="post">
+                     {% csrf_token %}
+                        <input type="search" class="form-control " name="nombre" placeholder="Buscar Proyecto"> 
+                </form>
+      
+          </div>
+           <div class="col-xs-1 col-sm-1 col-md-1 col-lg-2  "> 
+          </div>
+          
+        </div>
+      </div>
+      
+        <div class="row">
+            {% if proyectoEsp %}
+                {% for proyecto in proyectoEsp %}
+                <div class="card border-0 px-5 py-3 col-lg-6 col-md-6  my-2">
+    
+              <!-- Card image -->
+                  <div class="view overlay img-responsive-16by9">
+                    <img class="card-img-top " src="{{ proyecto.foto.url }}" alt="Card image cap">
+                  </div>
+    
+                  <!-- Card content -->
+                  <div class="card pt-2">
+    
+                    <!-- Title -->
+                    <h4 class="card-title mx-2 text-truncate">{{ proyecto.nombre }}</h4>
+                    <!-- Text -->
+                    <small class="card-text mx-2 text-truncate">{{ proyecto.descripcion }}</small>
+                    <!-- Link -->
+                    <!--a href="{{proyecto.get_absolute_url}}" class=" d-flex justify-content-end mr-2"><p>Ver Proyecto<i class="fa fa-angle-double-right"></i></p></a-->
+                  </div>
+    
+                </div> 
+                {% endfor%}
+                <hr width="200%">
+               
+            {% else %}
+                <hr width="100%">
+            {% endif %}
+            
+            {% if proyectos %}
+
+                <br>
+                {% for object in proyectos %}
+                    <div class="card border-0 px-5 py-3 col-lg-6 col-md-6  my-2">
+                        <!-- Card image -->
+                        <div class="view overlay img-responsive-16by9">
+                            <img class="card-img-top " src="{{ object.foto.url }}" alt="Card image cap">
+                        </div>
+                        
+                        <!-- Card content -->
+                        <div class="card pt-2">
+                            <!-- Title -->
+                            <h4 class="card-title mx-2 text-truncate">{{ object.nombre }}</h4>
+                            <!-- Text -->
+                            <small class="card-text mx-2 text-truncate">{{ object.descripcion }}</small>
+                            <!-- Link -->
+                            <a href="{% url 'detalle_proyecto_miembro' idProyecto=object.id %}" class=" d-flex justify-content-end mr-2">
+                                <p>Ver Proyecto<i class="fa fa-angle-double-right"></i></p>
+                            </a>
+                        </div>
+                    </div> 
+                {% endfor %}
+            {% else %}
+                <h1>No hay proyectos registrados</h1>
+            {% endif %}
+            
+        </div>    
+</div>
+
+{% endblock %}

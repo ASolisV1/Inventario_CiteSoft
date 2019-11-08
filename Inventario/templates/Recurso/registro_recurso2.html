@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head></head>
+    <body>
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        {% block content %}
+        {% load static %}
+        {% block head %}
+        <link rel="stylesheet" href="{% static 'js/jquery.typeahead.css' %}">
+        <title>Registrar recurso</title>
+        {% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>CiTeSoft</title>
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="{% static 'js/bootstrap3-typeahead.js' %}"></script>
+        <script src="{% static 'js/jquery.typeahead.js' %}"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- Custom styles for this template -->
+        <link href="{% static 'css/index.css' %}" rel="stylesheet">
+        <style>
+            .doc input:focus{
+            box-shadow:none;
+            border-bottom: 1px solid orange; 
+            background: #eeeeee;  
+            }
+        </style>
+        <!-- Contenido que quieras -->
+        <div class="container">
+            <h1 class="my-4">Registrar 
+                <small>recursos</small>
+            </h1>
+            <form class="form-row mt-4" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                
+                {% if documentos %}
+                    {% for d in documentos %}
+                        <input type="hidden" id="documentos" name="documentos" value="{{ d.id }}">
+                    {% endfor %}
+                {% else %}
+                    <p>No ha registrado documentos previamentes.</p>
+                {% endif %}
+                <input type="hidden" id="fecha_ingreso" name="fecha_ingreso" value="{{ fecha_ingreso }}">
+                
+                <input type="hidden" id="form" name="form" value="2">
+                <div class="col-sm-12 col-lg-12 pb-3">
+                    <div class="float-left">
+                        <h3>Recurso</h3>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-5">
+                    <label for="nombre">Nombre *</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required="">
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-6" >
+                    <label for="tipo">Tipo *</label>
+                    {{  form.tipo }}
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="celular">Imagen *</label>
+                    <input type="file" accept="image/*" class="form-control" id="files" name="foto">
+                    <output id="list" class="img-responsive-16by9">
+                    <img class="card-img-top " src="http://placehold.it/700x400" alt="">
+                    </output>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <label for="exampleMessage">Características *</label>
+                    <textarea class="form-control" rows="17" id="exampleMessage" name="caracteristicas"></textarea>
+                </div>
+                <div class="col-sm-12">
+                    <label for="codigo_produto" class="col-sm-8 pb-3">Códigos del Recurso *</label>
+                    <div id="bt_add" class="btn btn-primary float-right col-sm-2">Agregar</div>
+                    <div id="bt_del" class="btn btn-danger float-right col-sm-2">Eliminar</div>
+                </div>
+                <table id="tabla" class="table ph-1">
+                    <thead>
+                        <tr>
+                            <td>Nº</td>
+                            <td>Código de Patrimonio</td>
+                            <td>Número de Producto</td>
+                            <td>Número de serie</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><input type="text" class="form-control" name="cod_1_1" required=""></td>
+                            <td><input type="text" class="form-control" name="cod_1_2" required=""></td>
+                            <td><input type="text" class="form-control" name="cod_1_3" required=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--/div-->
+                <div class="col-sm-12 col-lg-4 pb-3">
+                    <a href="{% url 'Inventario_recursos_listar' %}" class="btn btn-danger form-control">Cancelar</a>
+                </div>
+                <div class="col-sm-12 col-lg-4 pb-3">
+                    <input type="submit" onclick="cambiar();" class="btn-primary form-control" id="agregar" value="Guardar y agregar otro recurso">
+                </div>
+                <div class="col-sm-12 col-lg-4 pb-3">
+                    <input type="submit" class="btn-primary  form-control" id="submit" value="Guardar y finalizar">
+                </div>
+            </form>
+        </div>
+        <br>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#bt_add').click(function(){
+                    agregar();
+                });
+                $('#bt_del').click(function(){
+                    eliminar(id_fila_selected);
+                });
+            
+            });
+            var cont=0;
+            var id_fila_selected=[];
+            function agregar(){
+                cont++;
+                var fila='<tr class="selected" id="fila'+cont+'" onclick="seleccionar(this.id);">'+
+                         '<td>'+cont+'</td>'+
+                         '<td><input type="text" class="form-control" name="cod_1_1" required></td>'+
+                         '<td><input type="text" class="form-control" name="cod_1_2" required></td>'+
+                         '<td><input type="text" class="form-control" name="cod_1_3" required></td>'+
+                         '</tr>';
+                $('#tabla').append(fila);
+                reordenar();
+            }
+            
+            function seleccionar(id_fila){
+                if($('#'+id_fila).hasClass('seleccionada')){
+                    $('#'+id_fila).removeClass('seleccionada');
+                }
+                else{
+                    $('#'+id_fila).addClass('seleccionada');
+                }
+                id_fila_selected.push(id_fila);
+            }
+            
+            function eliminar(id_fila){
+                /*$('#'+id_fila).remove();
+                reordenar();*/
+                for(var i=0; i<id_fila.length; i++){
+                    $('#'+id_fila[i]).remove();
+                }
+                reordenar();
+            }
+            
+            function reordenar(){
+                var num=1;
+                $('#tabla tbody tr').each(function(){
+                    $(this).find('td').eq(0).text(num);
+                    num++;
+                });
+            }
+            
+            function archivo(evt) {
+                var files = evt.target.files; 
+                     
+                for (var i = 0, f; f = files[i]; i++) {
+                    if (!f.type.match('image.*')) {
+                        continue;
+                    }
+                     
+                    var reader = new FileReader();
+                     
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                            document.getElementById("list").innerHTML = ['<img class="thumb card-img-top" src="', e.target.result,'" title="', escape(theFile.name), '"/>'].join('');
+                        };
+                    })(f);
+                    
+                    reader.readAsDataURL(f);
+                }
+            }
+                     
+            document.getElementById('files').addEventListener('change', archivo, false);
+              
+        </script>
+        <script type="text/javascript">
+            function cambiar(){
+                document.getElementById("form").value = "3";
+            }
+        </script>
+        {% endblock %}
+    </body>
+</html>

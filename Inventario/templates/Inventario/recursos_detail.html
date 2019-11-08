@@ -1,0 +1,24 @@
+{% extends "base/admin_group.html" %}
+{% load static %}
+{% load %}
+{% load extras %}
+{% load staticfiles %}
+{% csrf_token %}
+
+{% block content %}
+<div class="container">
+<p><a class="btn btn-default" href="{% url 'Inventario_recursos_list' %}">Volver a Recursos</a></p>
+<table class="table">
+<tr><td>Fecha de Creación</td><td>{{ object.created }}</td></tr>
+<tr><td>Última actualiación</td><td>{{ object.last_updated }}</td></tr>
+<tr><td>Código de Patrimonio</td><td>{{ object.cod_patrimonio }}</td></tr>
+<tr><td>Numero de Producto</td><td>{{ object.nro_producto }}</td></tr>
+<tr><td>Número de Serie</td><td>{{ object.nro_serie }}</td></tr>
+<tr><td>Recurso</td><td>{{ object.nombre }}</td></tr>
+<tr><td>Fecha de Ingreso al CiTeSoft</td><td>{{ object.fecha_ingreso }}</td></tr>
+<tr><td>Características</td><td>{{ object.caracteristicas|linebreaks }}</td></tr>
+<tr><td>Tipo</td><td>{{ object.tipo }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Editar recurso</a>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% block style %}
+<style >
+      
+     .datos div{
+        border-radius: 0;
+        border:none;
+        border-bottom: 1px solid silver;
+        color: orange;
+        padding-bottom: 0px;
+      }
+      label {
+        color: #999999;
+      }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+<!--<p><a class="btn btn-default" href="{% url 'Inventario_entidad_list' %}">Entidad Listing</a></p>
+-->
+<div class="container">
+
+      <!-- Portfolio Item Heading -->
+      <div class="col-lg-12 my-5 ">
+        <a href="{{object.get_update_url}}" class="btn btn-primary float-right ml-1" >Editar</a>
+        <!-- button type="submit" class="btn btn-danger float-right" >Eliminar</button-->
+        <!-- Portfolio Item Heading -->
+        <div class="">
+          <h1  class="">Cargo 
+          </h1>
+        </div> 
+      </div>
+
+        <!--tr><td>created</td><td>{{ object.created }}</td></tr>
+        <tr><td>last_updated</td><td>{{ object.last_updated }}</td></tr>
+        <tr><td>descripcion</td><td>{{ object.descripcion }}</td></tr>
+        </table>
+        <a class="btn btn-primary" href="{{object.get_update_url}}">Edit Cargos</a-->
+
+      <!-- Portfolio Item Row -->
+      <div class="form-row my-5" id="form">
+         <div class="col-sm-12 col-lg-6 mb-3">
+          <div class="datos">
+            <div class="form-control"> {{ object.descripcion }} </div> 
+            <label for="nombre">Descripción</label>
+          </div>
+        </div>    
+      </div>
+      <p><a class="btn btn-primary" href="{% url 'Inventario_cargos_list' %}">Volver</a></p>
+    </div>
+   
+ 
+{% endblock %}

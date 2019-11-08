@@ -1,0 +1,63 @@
+{% extends "base/base_miembro.html" %}
+{% load static %}
+{% load %}
+{% load extras %}
+{% load staticfiles %}
+{% csrf_token %}
+
+    <!-- head -->
+    {% load staticfiles %}
+    {% block head %}
+            <title>Inicio | Miembro</title> 
+    {% endblock %}
+    <!-- /head -->
+
+    <!-- body -->
+    {% block content %}
+           <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    
+                    <!-- a href="#menu-toggle" class="btn btn-secondary left">N</a -->
+
+                    <div class="title-citesoft">
+                        <h1>C</h1>
+                        <h1>i</h1>
+                        <h1>T</h1>
+                        <h1>e</h1>
+                        <h1>S</h1>
+                        <h1>o</h1>
+                        <h1>f</h1>
+                        <h1>t</h1>
+                    </div>      
+                    
+                    <p class="description-citesoft">El mejor centro de investigacion de la UNSA y Arequipa </p>
+                    <!-- Contenido 4 columnas -->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 contenido-proyecto">
+                                <h3>Zoodex</h3>
+                                <img src="{% static 'css/proyecto1.png' %}" class="img-responsive">
+                                <p>Columna de ejemplo con texto que tu puedes personalizar.</p>
+                                <a href="" class="btn btn-primary">Mas Informacion</a>
+                            </div>
+                            <div class="col-md-4 contenido-proyecto">
+                                <h3>Reconstrucción 3D</h3>
+                                <img src="{% static 'css/proyecto1.png' %}" class="img-responsive">
+                                <p>Columna de ejemplo con texto que tu puedes personalizar.</p>
+                                <a href="" class="btn btn-primary">Mas Informacion</a>
+                            </div>
+                            <div class="col-md-4 contenido-proyecto">
+                                <h3>Embarcaciones</h3>
+                                <img src="{% static 'css/proyecto1.png' %}" class="img-responsive">
+                                <p>Columna de ejemplo con texto que tu puedes personalizar.</p>
+                                <a href="" class="btn btn-primary">Mas Informacion</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endblock %}
+
+    
+    <!-- /body -->

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+    
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        {% load %}
+        {% load crispy_forms_tags %}
+        {% load staticfiles %}
+        {% block title %}
+            <title>Recursos</title>
+        {% endblock %}
+        {% block content %}
+        <div class="container">
+            <!-- Portfolio Item Heading -->
+            <div class="my-5  ">
+                <div class="float-left mb-3">
+                    <h2>Recursos</h2>
+                </div>
+                <div class="float-right mb-3">
+                    <a href="{% url 'Inventario_recursos_create' %}" class="btn btn-primary form-control"> +Agregar</a>
+                </div>
+                    <div class="">
+                       <form method="post">
+                            {% csrf_token %}
+                        <input type="search" class="form-control " name="nombre" placeholder="Buscar Recursos"> 
+                         </form>
+                    </div>
+
+            
+            </div>
+            
+             <!--Inicio del recurso encontrado -->
+            <div class="row">
+                {% if recursoEsp1 %}
+                {% for recurs in recursoEsp1 %}
+                <div class="card border-0 px-5 py-3 col-lg-4 col-md-6 col-sm-12  my-2">
+                    <div class="view overlay img-responsive-16by16-2">
+                        <img class="card-img-top " src="{{ recurs.foto.url }}" alt="Card image cap">
+                    </div>
+                    <div class="card pt-2 px-2">
+                        <div class="w-100">
+                            <h6 class="card-title text-center">
+                                {{ recurs.nombre }}
+                            </h6>
+                        </div>
+                        <div class="row my-3">  
+                            <div class="col-6 my-auto ">
+                                <h6 class="my-auto"> {{ estado }} </h6>
+                            </div>
+                            <div class="col-6">
+                                <a href="{{recurs.get_absolute_url}}" class="btn btn-primary float-right"> Ver recurso</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <hr width="100%">
+                {% else %}
+                    {% if not listado %}
+                        No hay resultados
+                        <hr width="100%">
+                    {% endif%}                    
+                {% endif %}
+                <!-- fin del recurso encontrado-->
+                <br><br><br>
+
+                 {% if recursoss %}
+                    {% for recurso, estado in juntos %}
+                        <div class="card border-0 px-5 py-3 col-lg-4 col-md-6 col-sm-12  my-2">                      
+                            <div class="view overlay img-responsive-16by16-2">
+                                <img class="card-img-top " src="{{ recurso.foto.url }}" alt="Card image cap">
+                            </div>
+                     <div class="card pt-2 px-2">
+                        <div class="w-100">
+                            <h6 class="card-title text-center">
+                                {{ recurso.nombre }}
+                            </h6>
+                        </div>
+                        <div class="row my-3">  
+                            <div class="col-6 my-auto ">
+                                <h6 class="my-auto"> {{ estado }} </h6>
+                            </div>
+                            <div class="col-6">
+                                <a href="{{recurso.get_absolute_url}}" class="btn btn-primary float-right"> Ver recurso</a>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h1>No hay recursos registrados.</h1>
+                {% endif %}
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            $('img').mouseover( function () {
+            var idImagen = $(this).id;
+            var idDiv = idImagen.replace('imagen','div');  // suponiendo imagen1,imagen2... y div1,div2...
+            $('#'+idDiv).show();
+            });
+        </script>
+        
+        {% endblock %}
+    
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        {% load %}
+        {% load staticfiles %}
+        {% block head %}
+            <style>
+            .datos div{
+            border-radius: 0;
+            border:none;
+            border-bottom: 1px solid silver;
+            color: orange;  
+            padding-bottom: 0px;
+            }
+            label {
+            color: #999999;
+            }
+            .bor-sep{
+                border-right: 1px solid silver;
+            }
+            @media screen and (max-width: 768px){
+                .bor-sep{
+                    border:none;
+                }
+                .bor-sep2{
+                    margin-top: 20px; 
+                    border-top: 1px solid silver;
+                }
+            }
+
+            </style>
+ 
+        {% endblock %}
+        
+        {% block content %}
+        <!-- Bootstrap core CSS -->
+        {% if recurso %}
+        {% block title %}
+            <title>{{recurso}}</title>
+        {% endblock %}
+        <!-- Page Content -->
+        <div class="container">
+            <!-- Portfolio Item Heading -->
+            <div class="col-lg-12 mt-5 ">
+                <a href="{{ recurso.get_update_url }}"><button id="editar" class="btn btn-primary float-right ml-1">Editar</button></a>
+                <a href="" onclick="myFunction2( '{{ recurso.id }}' )" ><button id="eliminar" class="btn btn-danger float-right"> Eliminar </button></a>
+                <!-- Portfolio Item Heading -->
+                <div class="">
+                    <h1 class="">{{recurso.nombre}}
+                    </h1>
+                </div>
+            </div>
+            <!-- Portfolio Item Row -->
+            <div class="form-row my-5" id="form">
+                <div class="col-sm-12 col-lg-6 text-center mb-5">
+                    <div class="img-responsive-16by16-2 mx-auto w-75">
+                        <img class="img-fluid w-100" src="{{recurso.foto.url}}" alt=" ">
+                    </div>    
+                </div>
+                <div class="col-sm-12 col-lg-6 mb-3">
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.nombre}}</div>
+                        <label for="nombre">Nombre</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.tipo}}</div>
+                        <label for="nombre">Tipo</label>
+                    </div>
+                    
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.nro_producto}}</div>
+                        <label for="apellido">Número de Serie</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.nro_serie}}</div>
+                        <label for="nombre">Número de Producto</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.cod_patrimonio}} </div>
+                        <label for="fecha">Código de Patrimonio</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.fecha_ingreso}}</div>
+                        <label for="telefono">Fecha de Creación</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> 
+                            <p class="text-overflow">{{recurso.caracteristicas}}</p> 
+                        </div>
+                        <label for="DNI">Características</label>
+                    </div>
+                </div>
+            </div>
+            <h3 class="my-4">Proyecto actual</h3>  
+            <div class="row col-lg-12 my-4"> 
+
+            {% if proyectoDelRecurso %}
+                <div class="h-100 col-lg-6 bor-sep">
+                                      
+                    <div class="card ">
+                        <div class="position-absolute w-100" ><a href="" class="float-right  btn  bg-light "> X </a></div>
+                        <img class="mx-auto rounded-circle d-block mt-4 mx-auto bg-light" title="img" src="{{ proyectoDelRecurso.idProyecto.foto.url }}" width="100" height="100">
+                        <a class="text-truncate text-center my-1  " href="{{ proyectoDelRecurso.get_absolute_url }}">
+                                <small class="text-secondary">{{ proyectoDelRecurso.idProyecto.nombre }}</small>
+                            </a>
+                     </div> 
+                </div>
+                
+            {% endif %}
+            
+
+            {% if personaACargo %}
+                <h3 class="my-4">Miembro actual a cargo</h3>
+                <div class="col-lg-6">
+                    
+                    <div class="card ">
+                        <div class="position-absolute w-100" ><a href="" class="float-right  btn  bg-light "> X </a></div>
+                        <img class="mx-auto rounded-circle d-block mt-4 mx-auto bg-light" title="img" src="{{ personaACargo.idMiembro_Proyecto.idMiembro.foto.url }}" width="100" height="100">
+                        <a class="text-truncate text-center my-1  " href="{{ personaACargo.idMiembro_Proyecto.idMiembro.get_absolute_url }}">
+                                <small class="text-secondary">{{ personaACargo.idMiembro_Proyecto.idMiembro }}</small>
+                            </a>
+                        
+                        <div class="w-100 text-center py-1 bg-light ">
+                            <small class="text-truncate"> {{ personaACargo.idMiembro_Proyecto.idCargo }}</small><br>
+                        </div>
+                        <div class="w-100 text-center py-2 ">
+                        </div>  
+                     </div> 
+                </div>
+            {%else%}
+                <div class="h-100 col-lg-6 bor-sep2">
+                    
+                    <p>Actualmente el recurso no está asignado.</p>    
+                    
+                </div>
+                
+            {% endif %}
+            </div>
+            
+            <h3 class="my-4">Documentos <small><a class="text-center btn btn-primary" href="{% url 'Inventario_recurso_documento' recurso.id %}"> Asignar </a></small></h3>
+            {%  if documentos %}
+                <div class="row">
+                    {% for doc in documentos %} 
+                        <div class="col-md-4 col-sm-6 col-mb-4">
+                            <a class="btn btn-secondary" href="{{ doc.idDocumento.get_absolute_url }}">{{ doc.idDocumento }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <h5> Sin documentos asignados.</h5>
+            {%  endif %}
+            
+        {% else %}
+            <div class="container">
+                <h1>El recurso solicitado no existe</h1>
+                <a class="btn btn-danger form-control" href="{% url 'Inventario_recursos_listar' %}">Volver a la lista de Recursos</a>
+            </div>
+        {%endif%}
+        </div>
+        
+        {% block js %}
+        <script>
+            function myFunction2(idRecurso, event) {
+                var r = confirm("¿Está seguro que desea eliminar el Recurso?");
+                if (r) {
+                    $.ajax({
+                        method: 'GET',
+                        url: '/inventario/Inventario/recursos/delete/',
+                        data: {
+                            'idRecurso': idRecurso,
+                            'respuesta' : '1',
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            var r2 = confirm(response.resultado);
+                            if (r2){
+                                $.ajax({
+                                    method: 'GET',
+                                    url: '/inventario/Inventario/recursos/delete/',
+                                    data: {
+                                        'idRecurso': idRecurso,
+                                        'respuesta' : '2',
+                                    },
+                                    dataType: "json",
+                                });
+                                alert('Eliminación exitosa.');
+                                window.location.href='/inventario/Inventario/recursos/listar/';
+                            } else {
+                                alert('Eliminación cancelada.');   
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+        {% endblock %}
+        
+        {%endblock%}   
+    </body>
+</html>

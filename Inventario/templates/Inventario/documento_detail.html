@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        {% block title %}
+        <title>Detalle de documento</title>
+        {% endblock %}
+        {% block content %}
+        <div class="container">
+            <h1>Documento</h1>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>Código del documento</td>
+                        <td>{{ object.codigo_documento }}</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha de emisión</td>
+                        <td>{{ object.fecha_emision }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tipo</td>
+                        <td>{{ object.tipo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--embed src="{{ object.ruta_pdf.url }}" type="application/pdf" width="1000" height="600"-->
+            <object data="{{ object.ruta_pdf.url }}" type="application/pdf" width="100%" height="750px" frameborder='0' allowfullscreen>
+                <embed src="{{ object.ruta_pdf.url }}" type="application/pdf" frameborder='0' allowfullscreen>
+                    <p>Este navegador no es compatible con archivos PDF. Descargue el PDF para verlo: <a href="{{ object.ruta_pdf.url }}">Descargar PDF</a>.</p>
+                <!--/embed-->
+            </object>
+            <br>
+            <!--a class="btn btn-primary" href="{{object.get_update_url}}">Editar Documento</a-->
+            <!--a class="btn btn-danger" href="{% url 'Inventario_documento_list' %}">Volver</a-->
+            <a class="btn btn-danger" onclick="goBack()">Volver</a>
+        </div>
+        
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+        {% endblock %}
+        
+    </body>
+</html>

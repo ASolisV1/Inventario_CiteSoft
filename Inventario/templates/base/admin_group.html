@@ -1,0 +1,142 @@
+{% load static %}
+{% load %}
+{% load extras %}
+{% load staticfiles %}
+{% csrf_token %}
+<!DOCTYPE html>
+<html>
+	{% if request.user.is_authenticated %}
+	{% if request.user|tiene_grupo:"admin_grupo" %}
+	<head>
+		{% block headoblig %}
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <style type="text/css">
+            a, a:link, a:hover, a:visited, a:active .no-design-ctsf{
+                text-decoration: none;
+            }
+        </style>
+        {% endblock %}
+
+	    {% block head %}
+	    	<title>Default head</title>
+	    {% endblock %}
+	</head>
+    <body>
+
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <div class="sidebar-header">
+                    <a class="no-design-ctsf" href={% url 'index' %}>
+                        <h3>CiTeSoft</h3>
+                    </a>
+                </div>
+                <ul class="sidebar-nav list-unstyled components">
+                    <div class="search">
+                        <ul class="sidebar-nav list-unstyled components">
+                            <li>
+                                <input type="text" name="search" class="input-search" placeholder="Buscar"><button type="button" class="btn btn-default btn-lg">
+                                <i class="fa fa-search"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <li class="panel panel-default " id="dropdown1">
+                       
+                        <li><a href="{% url 'Inventario_proyectos_list' %}">Proyectos</a></li>
+                        <li><a href="{% url 'Inventario_miembros_list' %}">Miembros</a></li>
+                        <li><a href="{% url 'Inventario_recursos_listar' %}">Recursos</a></li>
+                        <li><a href="{% url 'Inventario_entidad_list' %}">Entidades</a></li>
+                        
+                             
+                    </li>
+                </ul>
+                <ul class="sidebar-nav list-unstyled components">
+                    <li>
+                        <form method="POST">
+                        {% csrf_token %}
+                        <a href={% url 'logout' %}> Cerrar sesión </a>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">=</a>
+                    <a href="" class="btn  left user" id="">{{ user.first_name }} {{ user.last_name }} </a>
+                    
+                    <!-- a href="#menu-toggle" class="btn btn-secondary left">N</a -->
+                    <a href={% url 'solicitudes' %} class="btn btn-secondary left">Solicitudes</a>     
+                    
+                    <!--p class="description-citesoft">El mejor centro de investigacion de la UNSA y Arequipa </p-->
+                    <!-- Contenido 4 columnas -->
+
+
+
+			        {% load staticfiles %}   
+			        {% block content %}
+
+			        <div class="jumbotron text-center">
+			            <h1>Default content</h1>
+			            <p>Resize this responsive page to see the effect!</p>
+			        </div>
+			        {% endblock %}
+        		</div>
+            </div>
+            <!-- End Block Content -->
+        </div>
+
+        {% block footer %}
+        {% endblock %}
+
+        
+        <!-- SCRIPTS -->
+        <!-- Bootstrap core JavaScript -->
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+        <script>
+            $("#menu-toggle").click(function(e) {
+
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+                $('.overlay').fadeIn();
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        </script>
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                alert('{{ message }}')
+                </script>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Scripts personalizados -->
+        {% block js %}
+        	<!-- Reemplace este bloque de script -->
+    	{% endblock %}
+
+    </body>
+    {% else %}
+    	<body>You are not an admin</body>
+    {% endif %}
+    {% else %}
+    	<body>You do not have access</body>
+    {% endif %}
+</html>
+
+

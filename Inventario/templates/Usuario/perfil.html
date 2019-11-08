@@ -1,0 +1,147 @@
+{% extends "base/base_miembro.html" %}
+{% load static %}
+{% load %}
+{% load staticfiles %}
+
+    {% block head %}
+        <title>Perfil</title>
+       
+    {% endblock %}
+    {% block content %}
+	<div class="container bootstrap snippet information-user">
+	<div class="panel-body inf-content">
+		<CENTER>
+			<strong>
+				<span>INFORMACIÓN</span>
+			</strong><br><br>
+		</CENTER>
+		<div class="row">
+			<div class="col-md-4">
+				<img alt="" style="width:600px;" title="" class="img-circle img-thumbnail isTooltip" src="{{ miembro.foto.url }}" data-original-title="Usuario"> 
+				<br>
+
+
+				<a href="{% url 'editar_datos_miembro' miembro.dni %}"><!--button id="editar" class="btn btn-primary float-right ml-1"-->Editar Perfil<!--/button--></a><br>
+				 <a href="{% url 'editar_miembro_password' miembro.dni %}" >Editar contraseña</a>
+				<ul title="Ratings" class="list-inline ratings text-center">
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+				</ul>
+			</div>
+			<div class="col-md-6">
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<tbody>
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-asterisk text-primary"></span>
+									Documento de Identificación (DNI)                                                
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ miembro.dni }}
+							</td>
+						</tr>
+						<tr>    
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-user  text-primary"></span>    
+									Nombres                                            
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ miembro.nombre }} 
+							</td>
+						</tr>						
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-cloud text-primary"></span>  
+									Apellidos                                                
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ miembro.apellido }}
+							</td>
+						</tr>
+
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-envelope text-primary"></span> 
+									Correo Electrónico                                                
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ miembro.correo }}	
+							</td>
+						</tr>
+						
+
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-calendar text-primary"></span>
+									Fecha de Ingreso                                             
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ miembro.fecha_ingreso }}
+							</td>
+						</tr>
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-calendar text-primary"></span>
+									Teléfono / Celular                                       
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ miembro.telefono }}
+							</td>
+						</tr>
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-calendar text-primary"></span>
+									Fecha de Ingreso a CiTeSoft	                                             
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ miembro.fecha_ingreso }}
+							</td>
+						</tr>
+
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-calendar text-primary"></span>
+									Grado Académico                                             
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ miembro.grado_academico }}
+							</td>
+						</tr>
+
+                                   
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>                                        
+	{% endblock %}
+
+	{% if messages %}
+    {% for message in messages %}
+      <script>
+        alert('{{ message }}')
+      </script>
+    {% endfor %}
+  {% endif %}

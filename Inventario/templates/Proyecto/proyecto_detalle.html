@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        {% extends "base/base_administrador.html" %}
+        {% load static %}
+        {% load %}
+        {% load staticfiles %}
+        {% block title %}
+            {% if proyecto %}
+                <title>Proyecto {{ proyecto.nombre }}</title>
+            {% else %}
+                <title>Not found</title>
+            {% endif %}
+        {% endblock%}
+        {% block style %}    
+        <style> 
+            .row{
+            border-bottom: 1px solid silver;
+            }
+            .datos div{
+            border-radius: 0;
+            border:none;
+            border-bottom: 1px solid silver;
+            color: orange;  
+            padding-bottom: 0px;
+            }
+            textarea{
+            color: orange;  
+            }
+            label {
+            color: #999999;
+            }
+        </style>
+        
+        {% endblock %}
+        {% block content %}
+        {% if proyecto %}
+        <!-- Page Content -->
+        <div class="container my-5">
+            <div class="col-lg-12 my-5">
+                <a href="{{ proyecto.get_update_url }}"><button id="editar" class="btn btn-primary float-right ml-1">Editar</button></a>
+                <a href="" onclick="myFunction3( '{{ proyecto.id }}' )" ><button id="eliminar" class="btn btn-danger float-right"> Eliminar </button></a>
+                <!-- Portfolio Item Heading -->
+                <div class="">
+                    <h2 class="">PROYECTO</h2>
+                </div>
+            </div>
+            <div class="my-4">
+                <h3 class="">{{ proyecto.nombre }}</h3>
+            </div>
+            <!-- Portfolio Item Row -->
+            <div class="form-row my-3" id="form">
+                <div class="col-sm-12 col-lg-6 ">
+                    <div class="img-responsive-16by9 mx-auto w-75">
+                        <img class="img-fluid w-100 " src="{{ proyecto.foto.url }}" alt="">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6 pb-3">
+                    <div class="datos">
+                        <div class="form-control">{{ proyecto.codigo }}</div>
+                        <label for="nombre">Código</label>
+                    </div>
+                    <div class="datos">
+                        <div class="datos">
+                            <div class="form-control">{{ proyecto.fecha_inicio }}</div>
+                            <label for="nombre">Fecha de inicio</label>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="datos my-4">
+                    <h4>Descripción</h4>
+                    <small class="color-gris"> {{ proyecto.descripcion }} </small>
+                </div>
+            </div>
+                
+            <div class="col-lg-12">
+                <h3 class="my-4"> Miembros  <a class="text-center btn btn-primary" href="{% url 'asignar_miembro_proyecto' proyecto.id %}"> + Agregar </a></h3>
+                {%  if miembros %}
+                <div class="row">
+                    {% for miembro in miembros %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-mb-4 my-2">                            
+                        <div class="card ">
+                            <div class="position-absolute w-100" >
+                              <a href="" onclick="myFunction2( '{{ miembro.id }}' )" class="float-right  btn  bg-light "> X </a>
+                            </div>
+                            
+                            <img class="mx-auto rounded-circle d-block mt-4 mx-auto bg-light" title="img" src="{{ miembro.idMiembro.foto.url }}" width="100" height="100">
+                            <a class="text-truncate text-center my-1  " href="{{ miembro.get_absolute_url }}">
+                                <small class="text-secondary">{{ miembro.idMiembro }}</small>
+                            </a>
+                            
+                            <div class="w-100 text-center py-1 bg-light ">
+                                <small class="text-truncate"> {{ miembro.idCargo }}</small><br>
+                            </div>
+                            
+                            <div class="w-100 text-center py-2 ">
+                                <a href="{% url 'Inventario_asignar_recurso_miembro' proyecto.id miembro.id %}" class="btn btn-light text-primary">Asignar Recurso</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                    <h4> Sin miembros </h4>
+                {%  endif %}
+            </div>
+                
+            <div class="col-lg-12 my-3">
+                <h3 class="my-4">Recursos 
+                    <small><a class="text-center btn btn-primary" href="{% url 'asignar_recurso_proyecto' proyecto.id %}"> + Agregar </a></small>
+                </h3>
+                {%  if recursos %}
+                <div class="row">
+                    {% for recurso in recursos %}
+                        <div class="card border-0  py-3 col-lg-3 col-md-6 col-sm-12  my-2">
+                            <div class=" position-absolute w-100 px-4 " >
+                                <a href="" onclick="myFunction( '{{ recurso.id }}' )" class="float-right btn bg-light">X</a>
+                            </div>
+                            <div class="view overlay img-responsive-16by16-2">
+                                <img class="card-img-top " src="{{ recurso.idRecurso.foto.url }}" alt="Card image cap">
+                            </div>
+                            <div class="card pt-2 bg-light">
+                                <a class="text-center my-1  " href="{{recurso.get_absolute_url}}">
+                                    <small class="text-secondary">{{ recurso.idRecurso.nombre }}</small>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                    <h4> Sin recursos asignados </h4>
+                {%  endif %}
+            </div>
+        </div>
+                
+        {% block js %}
+        <script>
+            function myFunction2(idMiembro_Proyecto) {
+            
+                var r = confirm("¿Está seguro que desea eliminar el miembro del proyecto?");
+                
+                var txt;
+                
+                if (r == false) {
+                    txt = "You pressed Cancelar";
+                } else {
+                    $.ajax({
+                        method: 'GET',
+                        url: '/inventario/Inventario/desasignarMiembroProyecto/',
+                        data: {
+                            'idProyecto': {{ proyecto.id }},
+                            'respuesta' : '1',
+                            'idMiembro_Proyecto': idMiembro_Proyecto,
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            // alert(response.resultado);
+                            var r2 = confirm(response.resultado);
+                            if (r2 == false) {
+                                alert('Eliminación cancelada');
+                            } else {
+                                
+                                $.ajax({
+                                    method: 'GET',
+                                    url: '/inventario/Inventario/desasignarMiembroProyecto/',
+                                    data: {
+                                        'idProyecto': {{ proyecto.id }},
+                                        'respuesta' : '2',
+                                        'idMiembro_Proyecto': idMiembro_Proyecto,
+                                    },
+                                    dataType: "json",
+                                });
+                                alert('Eliminación exitosa.');
+                                window.location.href='/Inventario/proyectos/detalle/'+ {{ proyecto.id }} +'/';
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+        
+        <script>
+            function myFunction(idRecurso_Proyecto) {
+            
+                var r = confirm("¿Está seguro que desea eliminar el recurso del proyecto?");
+                
+                var txt;
+                
+                if (r == false) {
+                    txt = "You pressed Cancelar";
+                } else {
+                    $.ajax({
+                        method: 'GET',
+                        url: '/inventario/Inventario/desasignarRecursoProyecto/',
+                        data: {
+                            'idProyecto': {{ proyecto.id }},
+                            'respuesta' : '1',
+                            'idRecurso_Proyecto': idRecurso_Proyecto,
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            // alert(response.resultado);
+                            var r2 = confirm(response.resultado);
+                            if (r2 == false) {
+                                alert('Eliminación cancelada');
+                            } else {
+                                
+                                $.ajax({
+                                    method: 'GET',
+                                    url: '/inventario/Inventario/desasignarRecursoProyecto/',
+                                    data: {
+                                        'idProyecto': {{ proyecto.id }},
+                                        'respuesta' : '2',
+                                        'idRecurso_Proyecto': idRecurso_Proyecto,
+                                    },
+                                    dataType: "json",
+                                });
+                                alert('Eliminación exitosa.');
+                                window.location.href='/inventario/Inventario/proyectos/detalle/'+ {{ proyecto.id }} +'/';
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+               
+        <!-- Inicio del Eliminar proyecto-->
+         
+        <script>
+            function myFunction3(idProyecto) {
+            
+                var r = confirm("¿Está seguro que desea eliminar el Proyecto ?");
+                
+                var txt;
+                
+                if (r == false) {
+                    txt = "You pressed Cancelar";
+                } else {
+                    $.ajax({
+                        method: 'GET',
+                        url: '/inventario/Inventario/proyectos/delete/',
+                        data: {
+                            'idProyecto': idProyecto,
+                            'respuesta' : '1',
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            // alert(response.resultado);
+                            var r2 = confirm(response.resultado);
+                            if (r2 == false) {
+                                alert('Eliminación cancelada');
+                            } else {
+                                
+                                $.ajax({
+                                    method: 'GET',
+                                    url: '/inventario/Inventario/proyectos/delete/',
+                                    data: {
+                                        'idProyecto': idProyecto,
+                                        'respuesta' : '2',
+                                    },
+                                    dataType: "json",
+                                });
+                                alert('Eliminación exitosa.');
+                                window.location.href='/inventario/Inventario/proyectos/listar/';
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+      
+        <!-- Fin del eliminar-->
+      {%endblock%}    
+            
+    {% else %}
+    <title> Proyecto no existente </title>
+    <h1> Proyecto no existente </h1>
+    {% endif %}
+    {%endblock%}
+    </body>
+</html>

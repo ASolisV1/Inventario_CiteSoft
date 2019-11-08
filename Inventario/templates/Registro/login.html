@@ -1,0 +1,49 @@
+<!-- Visible para todos -->
+<!DOCTYPE html>
+<html>
+{% load static %}
+{% csrf_token %}
+{% load crispy_forms_tags %}
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Inventario Citesoft</title>
+    </head>
+    <body>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+        <a class=" bnt-solicitar" style="width:auto;" a href="{% url 'solicitar' %}">Solicitar Cuenta</a>
+        <div class="title-citesoft">
+                
+            <form name="form" class="modal-content animate" method="post">
+              {% csrf_token %}
+              <h2>Iniciar Sesión</h2>
+              <div class="container">
+
+                <input type="text" placeholder="Ingresar usuario" name="username" required>
+                <input type="password" placeholder="Ingresar contraseña" name="password" required>
+                  
+                <button class="button-submit" >Ingresar</button>
+              </div>
+              <div class="container opciones" >
+                <span class="psw"><a href="{% url 'password_reset' %}">olvidé mi contraseña</a></span>
+              </div>
+            </form>
+            </div> 
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+            <script>
+                alert('{{ message }}')
+            </script>
+            {% endfor %}
+        {% endif %}
+        
+        {% if form.errors %}
+            <script>
+                alert('Usuario o contraseña incorrecta. Inténtelo de nuevo.')
+            </script>
+        {% endif %}
+        
+    </body>
+    
+</html>

@@ -1,0 +1,33 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+
+<p><a class="btn btn-default" href="{% url 'Inventario_proyectos_list' %}">Lista de proyectos</a></p>
+<table class="table">
+<tr>
+<td>Nro</td><td>Nombre</td>
+    <td>Fecha y hora de creación</td>
+    <td>Última actualización</td>
+    <td>Código</td>
+    <td>Título del Proyecto</td>
+    <td>Descripción</td>
+    <td>Fecha de inicio del Proyecto en CiTeSoft</td>
+    <td>Foto o Logo</td>
+</tr>
+{% for object in object_list %}
+<tr>
+    <td>{{object.pk}}</td>
+    <td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
+    <td>{{ object.created }}</td>
+    <td>{{ object.last_updated }}</td>
+    <td>{{ object.codigo }}</td>
+    <td>{{ object.nombre }}</td>
+    <td>{{ object.descripcion }}</td>
+    <td>{{ object.fecha_inicio }}</td>
+    <td><img style="max-width:300px;max-height:150px;" src="{{ object.foto.url }}"></td>
+</tr>
+{% endfor %}
+</table><a class="btn btn-primary" href="{% url 'Inventario_proyectos_create' %}">Agregar proyecto</a>
+</div>
+{% endblock %}

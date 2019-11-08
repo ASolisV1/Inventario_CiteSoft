@@ -1,0 +1,24 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+<title>Asignar recurso a miembro</title>
+<link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+{% endblock %}
+{% block content %}
+<div class="container">
+<h1>Asignar recurso a un miembro</h1>
+<form method="post" class="form-row mt-4">
+{% csrf_token %}
+<div class="col-sm-12 col-lg-12 pb-3">
+{{form|crispy}}
+</div>
+<div class="col-sm-12 col-lg-4 pb-3">
+    <button class="btn btn-primary" type="submit">Guardar</button>
+</div>
+<div class="col-sm-12 col-lg-4 pb-3">
+    <a class="btn btn-danger" href="{% url 'Inventario_miembroproyecto_recursoproyecto_list' %}">Cancelar</a>
+</div>
+</form>
+</div>
+{% endblock %}

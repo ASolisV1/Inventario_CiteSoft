@@ -1,0 +1,84 @@
+{% extends "base/base_administrador.html" %}
+{% load static %}
+{% load %}
+{% load staticfiles %}
+
+    {% block head %}
+        <title>Perfil</title>
+       
+    {% endblock %}
+    {% block content %}
+	<div class="container bootstrap snippet information-user">
+	<div class="panel-body inf-content">
+		<CENTER><strong><span>INFORMACIÓN</span></strong><br><br></CENTER>
+		<div class="row">
+			<div class="col-md-4">
+				<!--img alt="" style="width:600px;" title="" class="img-circle img-thumbnail isTooltip" src="{{ miembro.foto.url }}" data-original-title="Usuario"--> 
+				
+		   
+				<ul title="Ratings" class="list-inline ratings text-center">
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-star"></span></a></li>
+				</ul>
+			</div>
+			<div class="col-md-6">
+				<div class="table-responsive">
+				<table class="table table-condensed table-responsive table-user-information">
+					<tbody>
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-asterisk text-primary"></span>
+									Nombre de usuario
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ admin.username }}
+							</td>
+						</tr>
+						<tr>    
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-user  text-primary"></span>    
+									Nombres                                            
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ admin.first_name }} 
+							</td>
+						</tr>						
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-cloud text-primary"></span>  
+									Apellidos                                                
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ admin.last_name }}
+							</td>
+						</tr>
+
+						<tr>        
+							<td>
+								<strong>
+									<span class="glyphicon glyphicon-envelope text-primary"></span> 
+									Correo Electrónico                                                
+								</strong>
+							</td>
+							<td class="text-primary">
+								{{ admin.email }}	
+							</td>
+						</tr>
+						                        
+					</tbody>
+				</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>                                        
+	{% endblock %}

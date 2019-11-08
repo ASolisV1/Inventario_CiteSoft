@@ -1,0 +1,128 @@
+        {% extends "base/base_miembro.html" %}
+        {% load static %}
+        {% load %}
+        {% load staticfiles %}
+        {% block head %}
+        <style>
+            .row{
+                border-bottom: 1px solid silver;
+            }
+            .datos div{
+                border-radius: 0;
+                border:none;
+                border-bottom: 1px solid silver;
+                color: orange;  
+                padding-bottom: 0px;
+            }
+            label {
+                color: #999999;
+            }
+        </style>
+
+        {% endblock %}
+        
+        {% block content %}
+        <!-- Bootstrap core CSS -->
+        {% if recurso %}
+        {% block title %}
+        <title>{{recurso}}</title>
+        {% endblock %}
+        <!-- Page Content -->
+        <div class="container">
+            <!-- Portfolio Item Heading -->
+            <div class="col-lg-12 mt-5 ">
+                <!-- Portfolio Item Heading -->
+                <div class="">
+                    <h1 class="">{{recurso.nombre}}
+                    </h1>
+                </div>
+            </div>
+            <!-- Portfolio Item Row -->
+            <div class="form-row my-5" id="form">
+                <div class="col-sm-12 col-lg-6 text-center mb-5">
+                    <div class="img-responsive-16by16-2 mx-auto w-75">
+                        <img class="img-fluid w-100" src="{{recurso.foto.url}}" alt=" ">
+                    </div>    
+                </div>
+                <div class="col-sm-12 col-lg-6 mb-3">
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.nombre}}</div>
+                        <label for="nombre">Nombre</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.tipo}}</div>
+                        <label for="nombre">Tipo</label>
+                    </div>
+                    
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.nro_producto}}</div>
+                        <label for="apellido">Número de Serie</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.nro_serie}}</div>
+                        <label for="nombre">Número de Producto</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.cod_patrimonio}} </div>
+                        <label for="fecha">Código de Patrimonio</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> {{recurso.fecha_ingreso}}</div>
+                        <label for="telefono">Fecha de Creación</label>
+                    </div>
+                    <div class="datos">
+                        <div class="form-control"> 
+                            <p class="text-overflow">{{recurso.caracteristicas}}</p> 
+                        </div>
+                        <label for="DNI">Características</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row col-lg-12">            
+                {% if proyectoDelRecurso %}
+                <div class="col-lg-6">
+                    <h1>Proyecto actual</h1>                    
+                    <div class="card ">
+                        
+                        <img class="mx-auto rounded-circle d-block mt-4 mx-auto bg-light" title="img" src="{{ proyectoDelRecurso.idProyecto.foto.url }}" width="100" height="100">
+                        
+                        <small class="text-secondary">{{ proyectoDelRecurso.idProyecto.nombre }}</small>
+                        
+                    </div> 
+                </div>
+                
+                {% endif %}
+
+
+                {% if personaACargo %}
+                <div class="col-lg-6">
+                    <h1>Miembro actual a cargo</h1>
+                    <div class="card ">
+                        <img class="mx-auto rounded-circle d-block mt-4 mx-auto bg-light" title="img" src="{{ personaACargo.idMiembro_Proyecto.idMiembro.foto.url }}" width="100" height="100">
+                        
+                        <small class="text-secondary">{{ personaACargo.idMiembro_Proyecto.idMiembro }}</small>
+                        
+                        <div class="w-100 text-center py-1 bg-light ">
+                            <small class="text-truncate"> {{ personaACargo.idMiembro_Proyecto.idCargo }}</small><br>
+                        </div>
+                        <div class="w-100 text-center py-2 ">
+                        </div>  
+                    </div> 
+                </div>
+                {%else%}
+                <p>Actualmente el recurso no está asignado.</p>
+                {% endif %}
+            </div>
+            
+                        
+            {% else %}
+            <div class="container">
+                <h1>El recurso solicitado no existe</h1>
+                <a class="btn btn-danger form-control" href="{% url 'Inventario_recursos_listar' %}">Volver a la lista de Recursos</a>
+            </div>
+            {%endif%}
+        </div>
+        
+        
+        {%endblock%}   

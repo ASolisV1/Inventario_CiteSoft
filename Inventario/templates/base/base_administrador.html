@@ -1,0 +1,168 @@
+{% load static %}
+{% load %}
+{% load extras %}
+{% load staticfiles %}
+{% csrf_token %}
+<!DOCTYPE html>
+<html lang="es">
+{% if request.user.is_authenticated %}
+{% if request.user|tiene_grupo:"admin_grupo" %}
+<head>
+  {% block headoblig %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/font.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/index.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  {% endblock %}
+  {% block head %}        
+  {% endblock %}
+
+  {% block title %}
+  <title>Default head</title>
+  {% endblock%}
+
+  {% block style%}
+  {% endblock%}
+</head>
+
+<body>
+
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+
+      <div class="sidebar-header">
+        <a href="{% url 'index' %}"><img src="{% static 'css/logo.png' %}"></a>
+
+      </div>
+      <ul class="sidebar-nav list-unstyled components">
+        <div class="search"></div> 
+
+        <li class="panel panel-default ">
+          <a href="{% url 'Inventario_proyectos_list' %}">Proyectos </a>
+        </li>
+
+        <li class="panel panel-default " >
+          <a href="{% url 'Inventario_miembros_list' %}"> Miembros </a>
+        </li>
+
+        <li class="panel panel-default " >
+          <a href="{% url 'Inventario_recursos_listar' %}"  > Recursos </a>
+        </li>
+
+        <li class="panel panel-default ">
+          <a href="{% url 'Inventario_documento_list' %}"  > Documentos </a>
+        </li>
+
+        <li class="panel panel-default ">
+          <a href="{% url 'Inventario_entidad_list' %}"  > Entidades </a>
+        </li>
+
+        <li class="panel panel-default ">
+          <a href="{% url 'Inventario_cargos_list' %}"> Cargos </a>
+        </li>
+
+        <li class="panel panel-default ">
+          <a href="{% url 'gestionar_prestamos' %}"> Préstamos </a>
+        </li>
+
+        <li class="panel panel-default ">
+          <a href="{% url 'reporte_recursos_pdf' %}"> Reportes </a>
+        </li>
+
+        <div class="search">
+          <ul class="sidebar-nav list-unstyled components">
+            <li>
+              <form method="POST">
+                {% csrf_token %}
+                <a href="{% url 'logout' %}" >Cerrar sesión </a>
+              </form>  
+            </li>
+          </ul>
+      </div>
+
+    </ul>
+
+
+  </div>
+
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <div class="container-fluid">
+      <a href="#menu-toggle" class="img-menu" id="menu-toggle"><img src="{% static 'css/menu-3x.png' %}"></a>
+
+      <a href="{% url 'profileAdmin' username=user.username %}" class="btn  left user" id="">Admin: {{ user.first_name }} {{ user.last_name }} </a>
+      <!--a href="{% url 'solicitudes' %}" class="btn  left" id=""><img src="{% static 'css/icon-bell.png' %}"></a-->
+      <a href="{% url 'solicitudes' %}" class="btn  left" id=""><img src="{% static 'css/icon-bell-alert.png' %}"></a>
+
+    </div>
+
+
+    {% load staticfiles %}   
+    {% block content %}
+
+    <div class="jumbotron text-center">
+      <h1>Default content</h1>
+      <p>Resize this responsive page to see the effect!</p>
+    </div>
+    {% endblock %}
+  </div>
+  <!-- Contenido que quieras -->
+  <!-- Page Content -->
+
+
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){ 
+
+
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+      $('.overlay').fadeIn();
+      $('.collapse.in').toggleClass('in');
+      $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+
+
+  });  
+
+</script>
+{% if messages %}
+{% for message in messages %}
+<script>
+  alert('{{ message }}')
+</script>
+{% endfor %}
+{% endif %}
+
+<!-- Scripts personalizados -->
+{% block js %}
+<!-- Reemplace este bloque de script -->
+{% endblock %}
+
+</body>
+{% else %}
+<body>Usted no es administrador</body>
+<a href="{% url 'login' %}">Volver al inicio</a>
+{% endif %}
+{% else %}
+<a href="{% url 'login' %}">Inicia sesión</a>
+{% endif %}
+
+</html>
